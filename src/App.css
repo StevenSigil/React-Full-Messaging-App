@@ -1,38 +1,88 @@
-.App {
+/* Global */
+body {
+  color: #eee;
+  background-color: rgb(25, 24, 36);
+}
+a {
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+.mainBackground {
+  background-color: rgb(58, 56, 70);
+  padding: 1rem;
+  min-height: 85vh;
+}
+.noPadding {
+  padding: 0;
+}
+
+/* Navbar */
+.header {
+  background-color: rgb(73, 77, 97);
+}
+.header > .navbar-brand {
+  color: #eee;
+  font-size: 2em;
+}
+.header > .navbar-brand:hover {
+  color: #6e6e6e;
+}
+.header div > .twoButtonNav {
+  margin-right: 2rem;
+}
+
+/* Welcome page */
+.welcomeContainer {
+  display: flex;
+  flex-direction: column;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.welcomeHeading {
+  padding: 1rem;
+}
+.welcomeHeading h1 {
+  margin: 0;
+}
+.welcomeBody {
+  padding: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Login */
+.btnContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+}
+.btnContainer button {
+  margin: 1rem 0;
+  width: 30%;
+  min-width: max-content;
 }
 
-.App-link {
-  color: #61dafb;
+/* auth forms/headings */
+.registerHeading {
+  text-align: center;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.loginStdHeading {
+  text-align: center;
+}
+.authFormOuter {
+  /* margin: auto; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.authFormOuter form {
+  width: 30%;
+  min-width: 30vh;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.authFormOuter input {
+  margin-bottom: 1rem;
+}
+.authFormOuter button {
+  width: max-content;
+  align-self: center;
 }
