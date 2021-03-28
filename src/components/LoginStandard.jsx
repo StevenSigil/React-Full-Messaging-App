@@ -1,30 +1,46 @@
 import React, { useState } from "react";
-import Header from "./Header";
+
+import firebase from "firebase/app";
+import "firebase/auth";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
 export default function LoginStandard(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleEmailVerification(e) {
+  const [
+    signInWithEmailAndPassword,
+    // user,
+    loading,
+    error,
+  ] = useSignInWithEmailAndPassword(firebase.auth());
+
+  function handleEmailRegistration(e) {
     e.preventDefault();
 
-    setEmail("");
-    setPassword("");
+    signInWithEmailAndPassword(email, password);
+  }
 
-    return null;
+  if (error) {
+    return (
+      <div>
+        <p>Error: {error.message}</p>
+      </div>
+    );
+  }
+  if (loading) {
+    return <p>Loading...</p>;
   }
 
   return (
     <div className="container noPadding">
-      <Header />
-
       <section className="mainBackground">
         <div className="loginStdHeading">
           <h2>Login with your Email Address</h2>
         </div>
 
         <div className="authFormOuter">
-          <form onSubmit={handleEmailVerification}>
+          <form onSubmit={handleEmailRegistration}>
             <input
               type="email"
               name="email"

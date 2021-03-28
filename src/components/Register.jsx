@@ -1,25 +1,35 @@
 import React, { useState } from "react";
-import Header from "./Header";
 
-export default function Register(props) {
+import firebase from "firebase/app";
+import "firebase/auth";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+
+export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [displayName, setDisplayName] = useState("");
+
+  const [
+    createUserWithEmailAndPassword,
+    loading,
+    error,
+  ] = useCreateUserWithEmailAndPassword(firebase.auth());
+
+  if (error) console.log(error);
+  if (loading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   function handleRegistration(e) {
     e.preventDefault();
-
-    setEmail("");
-    setPassword("");
-    setDisplayName("");
-
-    return null;
+    createUserWithEmailAndPassword(email, password);
   }
 
   return (
     <div className="container noPadding">
-      <Header />
-
       <section className="mainBackground">
         <div className="registerHeading">
           <h2>Register with your Email Address</h2>
@@ -43,15 +53,6 @@ export default function Register(props) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <input
-              type="text"
-              name="displayName"
-              placeholder="Display name"
-              className="form-control"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-            />
-
             <button type="submit" className="btn btn-primary">
               Continue
             </button>

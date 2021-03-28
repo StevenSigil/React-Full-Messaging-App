@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import "./App.css";
 import Login from "./components/Login";
@@ -9,32 +9,51 @@ import Welcome from "./components/Welcome";
 
 import Main from "./components/Main";
 
+import firebase from "firebase/app";
+import "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Header from "./components/Header";
+
+firebase.initializeApp();
+
+const auth = firebase.auth();
+
 export default function App() {
+  const [user, loading, error] = useAuthState(auth);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) console.log(error);
+
   return (
     <BrowserRouter>
+      <Header user={user} />
+
       <Switch>
         <Route exact path="/login">
-          <Login />
+          {!user ? <Login /> : <Redirect to="/main" />}
         </Route>
         <Route exact path="/register">
-          <Register />
+          {!user ? <Register /> : <Redirect to="/main" />}
         </Route>
         <Route exact path="/login-standard">
-          <LoginStandard />
+          {!user ? <LoginStandard /> : <Redirect to="/main" />}
         </Route>
 
         <Route exact path="/main">
-          {/* {user ? <Main /> : <Redirect to="/login" />} */}
-          <Main />
+          {user ? <Main user={user} /> : <Redirect to="/login" />}
         </Route>
-
-        <Route exact path="/logout" component={null} />
-        <Route exact path="/new-room" component={null} />
-        <Route exact path="/chatroom" component={null} />
-
-        <Route path="/">
+        <Route exact path="/welcome">
           <Welcome />
         </Route>
+
+        <Route path="/">
+          <Redirect to="/welcome" />
+        </Route>
+
+        {/* <Route exact path="/new-room" component={null} /> */}
+        {/* <Route exact path="/chatroom" component={null} /> */}
       </Switch>
     </BrowserRouter>
   );
