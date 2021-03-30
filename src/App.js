@@ -14,6 +14,7 @@ import "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "./components/Header";
 import ChatRoom from "./components/ChatRoom";
+import NewRoom from "./components/NewRoom";
 
 firebase.initializeApp();
 
@@ -46,11 +47,15 @@ export default function App() {
           {user ? <Main user={user} /> : <Redirect to="/login" />}
         </Route>
 
+        <Route exact path="/new-room">
+          {user ? <NewRoom user={user} /> : <Redirect to="/login" />}
+        </Route>
+
         <Route exact path="/chat/:roomId">
           {user ? <ChatRoom user={user} /> : <Redirect to="/login" />}
         </Route>
 
-        {/* <Route exact path="/new-room" component={null} /> */}
+        
 
         <Route path="/welcome">
           <Welcome />

@@ -10,10 +10,12 @@ export default function Main({ user }) {
   const history = useHistory();
 
   const roomRef = firestore.collection("chatRooms");
-  const roomQuery = roomRef.orderBy("createdAt");
+  const roomQuery = roomRef.where("usersInRoom", "array-contains", user.uid);
+
+  // const roomQuery = roomRef.orderBy("createdAt");
   const [rooms, loading] = useCollectionData(roomQuery, { idField: "id" });
 
-  console.log(roomRef);
+  console.log(rooms);
 
   if (user && !user.displayName) {
     return <UpdateDisplayName user={user} />;
@@ -32,14 +34,10 @@ export default function Main({ user }) {
           {rooms
             ? rooms.map((room) => {
                 return (
-                  <Link
-                    to={`chat/${room.id}`}
-                    key={room.id}
-                    className="list-group-item list-group-item-action"
-                  >
-                    {room.roomName}
+                  <>
+                    <SingleChatRoom room={room} roomRef={roomRef} user={user} />
                     {/* TODO: Add badge for new messages and new chatroom's */}
-                  </Link>
+                  </>
                 );
               })
             : null}
@@ -54,6 +52,44 @@ export default function Main({ user }) {
           </button>
         </div>
       </section>
+    </div>
+  );
+}
+
+function SingleChatRoom({ room, roomRef, user }) {
+  function handleRemove() {
+    const curDoc = roomRef.doc(room.id);
+
+    if (room.usersInRoom.length === 1) {
+      curDoc.delete();
+      console.log(`Deleted room ${room.id}`);
+    } else {
+      curDoc.update({
+        usersInRoom: firebase.firestore.FieldValue.arrayRemove(user.uid),
+      });
+    }
+  }
+
+  return (
+    <div
+      key={room.id}
+      className="singleRoom-Main list-group-item list-group-item-action"
+    >
+      <Link to={`chat/${room.id}`} className="">
+        {room.roomName}
+      </Link>
+
+      <div className="btn-container">
+        <button
+          type="button"
+          className="btn btn-outline-danger"
+          onClick={handleRemove}
+        >
+          Remove
+        </button>
+
+        <button className="btn btn-outline-primary">other</button>
+      </div>
     </div>
   );
 }

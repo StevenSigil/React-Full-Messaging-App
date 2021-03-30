@@ -2,6 +2,8 @@
 body {
   color: #eee;
   background-color: rgb(25, 24, 36);
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 a {
   text-decoration: none;
@@ -10,7 +12,8 @@ a {
 .mainBackground {
   background-color: rgb(58, 56, 70);
   padding: 1rem;
-  min-height: 85vh;
+  min-height: 80vh;
+  /* max-height: 84vh; */
 }
 .noPadding {
   padding: 0;
@@ -23,6 +26,7 @@ a {
 .header > .navbar-brand {
   color: #eee;
   font-size: 2em;
+  padding: 0;
 }
 .header > .navbar-brand:hover {
   color: #6e6e6e;
@@ -96,9 +100,27 @@ a {
   padding: 1rem;
   font-size: 1.25em;
 }
+.main > .container {
+  display: flex;
+  flex-direction: column;
+}
+.singleRoom-Main {
+  display: flex;
+  justify-content: space-between;
+}
+.singleRoom-Main a {
+  color: #eee;
+}
+.singleRoom-Main button {
+  margin: 15px;
+  border: none;
+}
+.singleRoom-Main button:hover {
+  border: none;
+  background-color: transparent;
+}
 .main-chatRoomSingleContainer > .list-group-item {
   background-color: transparent;
-  color: inherit;
   border-width: 2px;
 }
 .main-chatRoomSingleContainer > .list-group-item:active {
@@ -107,12 +129,20 @@ a {
 .main-chatRoomSingleContainer > .list-group-item:hover {
   background-color: #1a1e21;
 }
-.main > .container {
-  display: flex;
-  flex-direction: column;
+.main-chatRoomSingleContainer > .list-group-item:hover a {
+  color: rgb(168, 168, 168);
 }
 
 /* Chat room */
+.chat {
+  height: max-content;
+  position: relative;
+}
+.chat > .mainBackground {
+  position: inherit;
+  max-height: inherit;
+  padding: 1rem 0 0;
+}
 .message p {
   max-width: 500px;
   margin-bottom: 12px;
@@ -127,9 +157,22 @@ a {
   text-align: center;
   position: sticky;
 }
+.chat-head h1 {
+  margin: 0;
+}
 .message {
   display: flex;
   align-items: center;
+  padding: 0.25rem;
+}
+.message img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 2px 5px;
+}
+.message p {
+  margin: 0;
 }
 .sent {
   flex-direction: row-reverse;
@@ -143,12 +186,10 @@ a {
   background: #e5e5ea;
   color: black;
 }
-
 .messagesContainer {
-  /* padding: 10px; */
-  /* height: 80vh; */
-  /* margin: 10vh 0 10vh; */
-  max-height: 80vh;
+  padding: 1rem 1rem 2rem;
+  min-height: 60vh;
+  max-height: 65vh;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
@@ -162,4 +203,51 @@ a {
 .messagesContainer::-webkit-scrollbar-thumb {
   background: #522bbe;
   border-radius: 1rem;
+}
+.messageInputForm {
+  min-height: 7vh;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  font-size: 1.5rem;
+}
+.messageInputForm input {
+  line-height: 1.5;
+  width: 100%;
+  font-size: 1.5rem;
+  background: rgb(58, 58, 58);
+  color: white;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+}
+.messageInputForm button {
+  width: 20%;
+}
+
+/* New Room page */
+.newRoom {
+  display: flex;
+  flex-direction: column;
+}
+.newRoomForm {
+  min-width: 40vh;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.newRoomForm input {
+  margin-top: 1rem;
+}
+.newRoomForm button {
+  margin-top: 2rem;
+}
+.created {
+  font-size: 1.5em;
+  text-align: center;
+  padding: 1rem;
+}
+.created button {
+  margin: 1rem;
 }
