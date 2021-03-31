@@ -1,27 +1,27 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import "./App.css";
+
 import Login from "./components/Login";
 import LoginStandard from "./components/LoginStandard";
 import Register from "./components/Register";
 import Welcome from "./components/Welcome";
 
 import Main from "./components/Main";
-
-import firebase from "firebase/app";
-import "firebase/auth";
-import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "./components/Header";
 import ChatRoom from "./components/ChatRoom";
 import NewRoom from "./components/NewRoom";
 
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+
+import firebase from "firebase/app";
+import "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 firebase.initializeApp();
 
-const auth = firebase.auth();
-
 export default function App() {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading, error] = useAuthState(firebase.auth());
 
   if (loading) {
     return <p>Loading...</p>;
@@ -55,10 +55,12 @@ export default function App() {
           {user ? <ChatRoom user={user} /> : <Redirect to="/login" />}
         </Route>
 
-        
-
-        <Route path="/welcome">
+        <Route exact path="/welcome">
           <Welcome />
+        </Route>
+
+        <Route path="/">
+          {user ? <Redirect to="/main" /> : <Redirect to="/welcome" />}
         </Route>
       </Switch>
     </BrowserRouter>

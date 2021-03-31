@@ -4,7 +4,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 
-export default function LoginStandard(props) {
+export default function LoginStandard() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,7 +17,6 @@ export default function LoginStandard(props) {
 
   function handleEmailRegistration(e) {
     e.preventDefault();
-
     signInWithEmailAndPassword(email, password);
   }
 

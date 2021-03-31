@@ -1,21 +1,17 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import firebase from "firebase/app";
 import "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 export default function Main({ user }) {
-  const firestore = firebase.firestore();
   const history = useHistory();
 
+  const firestore = firebase.firestore();
   const roomRef = firestore.collection("chatRooms");
   const roomQuery = roomRef.where("usersInRoom", "array-contains", user.uid);
-
-  // const roomQuery = roomRef.orderBy("createdAt");
   const [rooms, loading] = useCollectionData(roomQuery, { idField: "id" });
-
-  console.log(rooms);
 
   if (user && !user.displayName) {
     return <UpdateDisplayName user={user} />;
@@ -30,14 +26,17 @@ export default function Main({ user }) {
 
         {loading ? <p>Loading...</p> : null}
 
-        <div className="list-group main-chatRoomSingleContainer">
+        <div className="main-chatRoomSingleContainer">
           {rooms
             ? rooms.map((room) => {
                 return (
-                  <>
-                    <SingleChatRoom room={room} roomRef={roomRef} user={user} />
-                    {/* TODO: Add badge for new messages and new chatroom's */}
-                  </>
+                  <SingleChatRoom
+                    key={room.id}
+                    room={room}
+                    roomRef={roomRef}
+                    user={user}
+                    history={history}
+                  />
                 );
               })
             : null}
@@ -56,10 +55,11 @@ export default function Main({ user }) {
   );
 }
 
-function SingleChatRoom({ room, roomRef, user }) {
+function SingleChatRoom(props) {
+  const { room, roomRef, user, history } = props;
+
   function handleRemove() {
     const curDoc = roomRef.doc(room.id);
-
     if (room.usersInRoom.length === 1) {
       curDoc.delete();
       console.log(`Deleted room ${room.id}`);
@@ -70,16 +70,34 @@ function SingleChatRoom({ room, roomRef, user }) {
     }
   }
 
+  var lastMessageDt;
+  if (room.lastMessageTime) {
+    lastMessageDt = new firebase.firestore.Timestamp(
+      room.lastMessageTime.seconds,
+      room.lastMessageTime.nanoseconds
+    ).toDate();
+  } else lastMessageDt = new Date();
+  const now = new Date();
+
   return (
-    <div
-      key={room.id}
-      className="singleRoom-Main list-group-item list-group-item-action"
-    >
-      <Link to={`chat/${room.id}`} className="">
-        {room.roomName}
-      </Link>
+    <div className="singleRoom-Main">
+      <div
+        className="roomName"
+        onClick={() => {
+          history.push(`/chat/${room.id}`);
+        }}
+      >
+        <p>{room.roomName}</p>
+        <code>{room.id}</code>
+      </div>
 
       <div className="btn-container">
+        <div>
+          <p>Last message:</p>
+          {"  "}
+          <DateTimeDiff a={lastMessageDt} b={now} />
+        </div>
+
         <button
           type="button"
           className="btn btn-outline-danger"
@@ -87,10 +105,36 @@ function SingleChatRoom({ room, roomRef, user }) {
         >
           Remove
         </button>
-
-        <button className="btn btn-outline-primary">other</button>
       </div>
     </div>
+  );
+}
+
+function DateTimeDiff({ a, b }) {
+  // a and b are Date obj.'s
+  const diffMs = Math.abs(b - a);
+  const diffM = Math.floor(diffMs / 1000 / 60);
+  const diffHr = Math.floor(diffM / 60);
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffHr > 0 && diffDays < 1) {
+    return (
+      <p>
+        over {diffHr} hour{diffHr !== 1 ? "s" : null} ago.
+      </p>
+    );
+  }
+  if (diffDays > 0) {
+    return (
+      <p>
+        over {diffDays} day{diffDays !== 1 ? "s" : null} ago.
+      </p>
+    );
+  }
+  return (
+    <p className="lighter">
+      {diffM} minute{diffM !== 1 ? "s" : null} ago.
+    </p>
   );
 }
 

@@ -12,8 +12,9 @@ a {
 .mainBackground {
   background-color: rgb(58, 56, 70);
   padding: 1rem;
-  min-height: 80vh;
-  /* max-height: 84vh; */
+  height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
 }
 .noPadding {
   padding: 0;
@@ -22,6 +23,9 @@ a {
 /* Navbar */
 .header {
   background-color: rgb(73, 77, 97);
+  max-height: 60px;
+  position: sticky;
+  top: 0;
 }
 .header > .navbar-brand {
   color: #eee;
@@ -71,7 +75,6 @@ a {
   text-align: center;
 }
 .authFormOuter {
-  /* margin: auto; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,45 +110,119 @@ a {
 .singleRoom-Main {
   display: flex;
   justify-content: space-between;
+  border: 2px solid #1e1e24;
+  border-radius: 3px;
+  margin: 0.5rem 0;
 }
-.singleRoom-Main a {
-  color: #eee;
-}
-.singleRoom-Main button {
-  margin: 15px;
-  border: none;
-}
-.singleRoom-Main button:hover {
-  border: none;
-  background-color: transparent;
-}
-.main-chatRoomSingleContainer > .list-group-item {
-  background-color: transparent;
-  border-width: 2px;
-}
-.main-chatRoomSingleContainer > .list-group-item:active {
-  background-color: #000 !important;
-}
-.main-chatRoomSingleContainer > .list-group-item:hover {
+.singleRoom-Main:hover {
   background-color: #1a1e21;
 }
-.main-chatRoomSingleContainer > .list-group-item:hover a {
-  color: rgb(168, 168, 168);
+.roomName {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-self: center;
+  color: #eee;
+}
+.roomName:hover {
+  cursor: pointer;
+}
+.roomName:active {
+  background-color: black;
+  cursor: pointer;
+}
+.roomName p, .roomName code {
+  align-self: center;
+  margin: 0 0.5rem;
+  width: max-content;
+  padding: 0.5rem;
+}
+.roomName code {
+  font-size: 0.75em;
+  font-style: italic;
+}
+.btn-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 40%;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+}
+.btn-container div {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn-container p,
+.btn-container button {
+  margin: 0 0.5rem 0 0;
+  border: none;
+  font-size: 0.6em;
+  padding: 0;
+}
+.btn-container p {
+  color: #afafaf;
+}
+.btn-container button {
+  margin: 0 2rem;
+}
+.btn-container button:hover {
+  background-color: transparent;
+  color: #b12a37;
+}
+.btn-container .lighter {
+  color: #eee !important;
 }
 
 /* Chat room */
 .chat {
-  height: max-content;
+  max-height: calc(100vh - 60px);
   position: relative;
 }
 .chat > .mainBackground {
-  position: inherit;
-  max-height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
   padding: 1rem 0 0;
+}
+.messagesContainer {
+  padding: 0 1rem 1rem;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  min-height: 90%;
+}
+.messagesContainer::-webkit-scrollbar {
+  width: 0.25rem;
+}
+.messagesContainer::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+.messagesContainer::-webkit-scrollbar-thumb {
+  background: #522bbe;
+  border-radius: 1rem;
+}
+.chatHead {
+  text-align: center;
+  position: sticky;
+  top: 0;
+}
+.chatHead h1 {
+  margin: 0;
+}
+.chatHead code {
+  font-style: italic;
+}
+.message {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
 }
 .message p {
   max-width: 500px;
-  margin-bottom: 12px;
+  margin: 0 0 12px;
   line-height: 24px;
   padding: 10px 20px;
   border-radius: 25px;
@@ -153,26 +230,11 @@ a {
   color: white;
   text-align: center;
 }
-.chat-head {
-  text-align: center;
-  position: sticky;
-}
-.chat-head h1 {
-  margin: 0;
-}
-.message {
-  display: flex;
-  align-items: center;
-  padding: 0.25rem;
-}
 .message img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   margin: 2px 5px;
-}
-.message p {
-  margin: 0;
 }
 .sent {
   flex-direction: row-reverse;
@@ -186,31 +248,16 @@ a {
   background: #e5e5ea;
   color: black;
 }
-.messagesContainer {
-  padding: 1rem 1rem 2rem;
-  min-height: 60vh;
-  max-height: 65vh;
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
-}
-.messagesContainer::-webkit-scrollbar {
-  width: 0.25rem;
-}
-.messagesContainer::-webkit-scrollbar-track {
-  background: #1e1e24;
-}
-.messagesContainer::-webkit-scrollbar-thumb {
-  background: #522bbe;
-  border-radius: 1rem;
-}
 .messageInputForm {
-  min-height: 7vh;
-  position: absolute;
+  max-height: calc((100vh - 60px)*0.075);
+  min-height: max-content;
+  position: sticky;
   bottom: 0;
+  align-self: flex-end;
   width: 100%;
   display: flex;
   font-size: 1.5rem;
+  background-color: inherit;
 }
 .messageInputForm input {
   line-height: 1.5;
@@ -224,6 +271,7 @@ a {
 }
 .messageInputForm button {
   width: 20%;
+  border-radius: 3px;
 }
 
 /* New Room page */

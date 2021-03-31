@@ -9,46 +9,37 @@ export default function Header(props) {
   const user = props.user;
 
   return (
-    <>
-      <nav className="navbar container header">
-        <Link to={user ? "/main" : "/welcome"} className="navbar-brand">
-          R.M.
-        </Link>
+    <nav className="navbar container header">
+      <Link to={user ? "/main" : "/welcome"} className="navbar-brand">
+        R.M.
+      </Link>
 
-        {user ? (
-          <PostLogin history={history} />
-        ) : (
-          <PreLogin history={history} />
-        )}
-      </nav>
-    </>
+      {user ? <PostLogin history={history} /> : <PreLogin history={history} />}
+    </nav>
   );
 }
 
-function PreLogin(props) {
+function PreLogin({ history }) {
   return (
     <div>
-      <button
-        onClick={() => props.history.push("/login")}
-        className="btn btn-dark"
-      >
+      <button onClick={() => history.push("/login")} className="btn btn-dark">
         Login
       </button>
     </div>
   );
 }
 
-function PostLogin(props) {
+function PostLogin({ history }) {
   return (
     <div>
       <button
-        onClick={() => props.history.push("/main")}
+        onClick={() => history.push("/main")}
         className="btn btn-dark twoButtonNav"
       >
         Main
       </button>
 
-      <Logout history={props.history} />
+      <Logout history={history} />
     </div>
   );
 }

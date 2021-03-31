@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 import firebase from "firebase/app";
 import "firebase/firestore";
-import { Link, useHistory } from "react-router-dom";
 
 export default function NewRoom({ user }) {
   const [roomInput, setRoomInput] = useState("");
