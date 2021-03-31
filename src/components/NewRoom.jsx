@@ -51,7 +51,7 @@ export default function NewRoom({ user }) {
             value={roomInput}
             onChange={(e) => setRoomInput(e.target.value)}
           />
-          <button className="btn btn-dark">Create</button>
+          <button className="btn">Create</button>
         </form>
 
         <div className="created">
@@ -68,13 +68,13 @@ export default function NewRoom({ user }) {
               </p>
               <p>Invite people by sharing this link!</p>
               <button
-                className="btn btn-success"
+                className="btn success"
                 onClick={handleCopyButtonClick}
               >
                 Copy
               </button>
               <button
-                className="btn btn-primary"
+                className="btn primary"
                 onClick={() => history.push(newRoomLocalUrl)}
               >
                 Go to Chat

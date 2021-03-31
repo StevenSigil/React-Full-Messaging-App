@@ -7,7 +7,7 @@ export default function Welcome() {
       <div className="welcomeContainer mainBackground">
         <div className="container">
           <div className="welcomeHeading">
-            <h1>React Messaging</h1>
+            <h1>Welcome to React Messaging!</h1>
           </div>
 
           <div className="welcomeBody">

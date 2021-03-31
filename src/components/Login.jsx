@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import firebase from "firebase/app";
 import "firebase/auth";
 
-export default function Login(props) {
+export default function Login() {
   const history = useHistory();
 
   function signInWithGoogle() {
@@ -18,15 +18,17 @@ export default function Login(props) {
   return (
     <div className="container noPadding">
       <section className="mainBackground">
+      
         <div className="btnContainer">
-          <button className="btn btn-dark" onClick={signInWithGoogle}>
+        <h1>Choose a method of signing in</h1>
+          <button className="btn" onClick={signInWithGoogle}>
             Sign in with Google
           </button>
-          <button className="btn btn-dark" onClick={signInWithGoogle}>
+          <button className="btn" onClick={signInWithGoogle}>
             Sign in with GitHub
           </button>
           <button
-            className="btn btn-dark"
+            className="btn"
             onClick={() => history.push("/login-standard")}
           >
             Sign in with Email

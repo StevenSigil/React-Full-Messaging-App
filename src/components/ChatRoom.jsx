@@ -23,13 +23,17 @@ export default function ChatRoom({ user }) {
 
   const [messageInput, setMessageInput] = useState("");
 
-  if (room) {
+  function checkToAddUser(room) {
     // Adds the user to the 'usersInRoom' field in collection.
-    if (!room.data().usersInRoom.some((user) => user === curUserID)) {
+    if (room && !room.data().usersInRoom.some((user) => user === curUserID)) {
       roomRef.update({
         usersInRoom: firebase.firestore.FieldValue.arrayUnion(curUserID),
       });
     }
+  }
+
+  if (room) {
+    checkToAddUser(room);
   }
 
   if (errRoom) console.log(errRoom);
@@ -37,7 +41,7 @@ export default function ChatRoom({ user }) {
   useEffect(() => {
     if (!loadingRoom)
       scrollPosition.current.scrollIntoView({ behavior: "smooth" });
-  }, [loadingRoom, roomRef]);
+  });
 
   async function sendMessage(e) {
     // Adds the message to the collection of messages and updates 'lastMessageTime' field.
@@ -73,7 +77,7 @@ export default function ChatRoom({ user }) {
               <ChatMessage key={msg.id} message={msg} curUserID={curUserID} />
             ))}
 
-          <div ref={scrollPosition}></div>
+          <div ref={scrollPosition} className="bottomScrollPosition"></div>
         </div>
 
         <form onSubmit={sendMessage} className="messageInputForm">

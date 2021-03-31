@@ -44,7 +44,7 @@ export default function LoginStandard() {
               type="email"
               name="email"
               placeholder="Email"
-              className="form-control"
+              className='form-control'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -52,11 +52,11 @@ export default function LoginStandard() {
               type="password"
               name="password"
               placeholder="Password"
-              className="form-control"
+              className='form-control'
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn">
               Continue
             </button>
           </form>

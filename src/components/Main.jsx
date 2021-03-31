@@ -45,7 +45,7 @@ export default function Main({ user }) {
         <div className="container">
           <button
             onClick={() => history.push("new-room")}
-            className="btn btn-dark btn-lg"
+            className="btn"
           >
             Create a new chatroom
           </button>
@@ -93,14 +93,14 @@ function SingleChatRoom(props) {
 
       <div className="btn-container">
         <div>
-          <p>Last message:</p>
+          <p>Last:</p>
           {"  "}
           <DateTimeDiff a={lastMessageDt} b={now} />
         </div>
 
         <button
           type="button"
-          className="btn btn-outline-danger"
+          className="btn btn-outline-danger btn-sm"
           onClick={handleRemove}
         >
           Remove
