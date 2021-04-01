@@ -276,14 +276,14 @@ code {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1rem 0 0;
+  padding: 0;
 }
 .messagesContainer {
-  padding: 0 1rem 1rem;
+  padding: 1rem 1rem;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  height: calc((100vh - 60px) - (100vh - 60px) * 0.075);
+  max-height: calc((100vh - 60px) - (100vh - 60px) * 0.075);
 }
 .messagesContainer::-webkit-scrollbar {
   width: 0.25rem;
@@ -313,6 +313,7 @@ code {
   display: flex;
   align-items: center;
   padding: 0.25rem;
+  min-height: fit-content;
 }
 .message p {
   max-width: 500px;
