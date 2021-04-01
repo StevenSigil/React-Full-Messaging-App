@@ -11,8 +11,8 @@ export default function LoginStandard() {
   const [
     signInWithEmailAndPassword,
     // user,
-    loading,
-    error,
+    // loading,
+    // error,
   ] = useSignInWithEmailAndPassword(firebase.auth());
 
   function handleEmailRegistration(e) {
@@ -20,16 +20,16 @@ export default function LoginStandard() {
     signInWithEmailAndPassword(email, password);
   }
 
-  if (error) {
-    return (
-      <div>
-        <p>Error: {error.message}</p>
-      </div>
-    );
-  }
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  // if (error) {
+  //   return (
+  //     <div>
+  //       <p>Error: {error.message}</p>
+  //     </div>
+  //   );
+  // }
+  // if (loading) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
     <div className="container noPadding">

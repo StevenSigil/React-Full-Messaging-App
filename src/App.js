@@ -31,12 +31,13 @@ firebase.initializeApp(firebaseConfig);
 firebase.firestore();
 
 export default function App() {
-  const [user, loading, error] = useAuthState(firebase.auth());
+  const [user] = useAuthState(firebase.auth());
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-  if (error) console.log(error);
+  // if (loading) {
+  //   return <p>Loading...</p>;
+  // }
+  // if (error) console.log(error);
+  
 
   return (
     <BrowserRouter>

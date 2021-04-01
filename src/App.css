@@ -25,18 +25,30 @@ code {
 }
 .btn {
   border: 1px solid rgb(68, 54, 73);
-  transition: inherit;
+  transition: 0.15s ease-in-out;
 }
 .btn:hover {
   background-color: rgb(68, 54, 73);
   color: #eee;
+}
+.customAlert {
+  position: fixed;
+  bottom: 0;
+  right: 1rem;
+  color: #fff;
+  text-align: center;
+  border-width: 2px;
+}
+.customAlert h5 {
+  margin: 0;
 }
 
 /* Navbar */
 .header {
   background-color: rgb(68, 54, 73);
   height: 60px;
-  position: relative;
+  position: sticky;
+  top: 0;
   padding-top: 0;
 }
 .header > .navbar-brand {
@@ -103,7 +115,7 @@ code {
   padding: 0.5rem;
   border: 1px solid rgb(68, 54, 73);
   border-radius: 5px;
-  transition: inherit;
+  transition: 0.15s ease-in-out;
 }
 
 .authFormOuter input:focus {
@@ -120,14 +132,41 @@ code {
   text-align: center;
   padding: 1rem;
 }
-.main-chatRoomSingleContainer {
-  padding: 1rem;
-  font-size: 1.25em;
-}
-.main > .container {
+.lowerContainer {
+  min-height: 40vh;
   display: flex;
   flex-direction: column;
-  padding: 0 1rem;
+  justify-content: space-around;
+  padding: 0.5rem;
+}
+.lowerContainer button {
+  /* margin: 0.5rem 0; */
+}
+.main-chatRoomSingleContainer {
+  font-size: 1.25em;
+}
+.roomCard .card-body {
+  padding: 0.5rem;
+}
+.roomCard p {
+  font-size: 0.75em;
+  margin-bottom: 0.5rem;
+}
+.roomCard .buttons-outer {
+  display: flex;
+}
+.roomCard .buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-self: center;
+}
+.roomCard .buttons a {
+  margin: 0.5rem 1rem;
+  font-size: 0.75em;
+  /* font-weight: 500; */
+  color: red;
+  text-decoration: initial;
 }
 .singleRoom-Main {
   display: flex;
@@ -135,12 +174,12 @@ code {
   border: 1px solid rgb(68, 54, 73);
   border-radius: 3px;
   margin: 0.5rem 0;
-  transition: inherit;
+  transition: 0.15s ease-in-out;
 }
 .singleRoom-Main:hover {
   color: #eee;
   background-color: rgb(68, 54, 73);
-  transition: inherit;
+  transition: 0.15s ease-in-out;
 }
 .roomName {
   display: flex;
@@ -196,13 +235,36 @@ code {
   /* margin: 0; */
   font-size: 0.62em;
   font-size: 1.25em;
-  transition: inherit;
+  transition: 0.15s ease-in-out;
 }
 .btn-container button:focus {
   box-shadow: none;
 }
 .btn-container .lighter {
   color: rgb(0, 153, 255) !important;
+}
+.updateName-main {
+  text-align: center;
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.updateName-main form {
+  display: flex;
+}
+.updateName-main input {
+  align-self: stretch;
+  /* width: initial; */
+  padding: 0.5rem;
+  border: 1px solid rgb(68, 54, 73);
+  border-radius: 5px;
+  transition: 0.15s ease-in-out;
+}
+.updateName-main input:focus {
+  background-color: rgb(230, 230, 230);
+  border: 1px solid rgb(68, 54, 73);
+  box-shadow: none;
 }
 
 /* Chat room */
@@ -230,7 +292,7 @@ code {
   background: #1e1e24;
 }
 .messagesContainer::-webkit-scrollbar-thumb {
-  background: #522bbe;
+  background: #0168b3;
   border-radius: 1rem;
 }
 .chatHead {
@@ -239,6 +301,7 @@ code {
   width: 100vw;
   left: 0;
   top: 78px;
+  z-index: 255;
 }
 .chatHead h1 {
   margin: 0;
@@ -283,24 +346,23 @@ code {
   height: 2px;
   position: static;
   bottom: 0;
-  display: none;
+  /* display: none; */
 }
 .messageInputForm {
-  max-height: calc((100vh - 60px) * 0.075);
-  min-height: max-content;
-  position: sticky;
+  max-height: calc((100vh - 100px));
+  position: fixed;
   bottom: 0;
   align-self: flex-end;
-  width: 100%;
+  padding: 0;
   display: flex;
   font-size: 1.5rem;
-  background-color: inherit;
+  background-color: rgb(58, 58, 58);
+  border-radius: 2px;
 }
 .messageInputForm input {
-  line-height: 1.5;
   width: 100%;
   font-size: 1.5rem;
-  background: rgb(58, 58, 58);
+  background-color: rgb(58, 58, 58);
   color: white;
   outline: none;
   border: none;
@@ -309,6 +371,9 @@ code {
 .messageInputForm button {
   width: 20%;
   border-radius: 3px;
+  border: initial;
+  background-color: #0b93f6;
+  color: #eee;
 }
 
 /* New Room page */
@@ -329,7 +394,7 @@ code {
   padding: 0.5rem;
   border: 1px solid rgb(68, 54, 73);
   border-radius: 5px;
-  transition: inherit;
+  transition: 0.15s ease-in-out;
 }
 .newRoomForm input:focus {
   background-color: rgb(230, 230, 230);
@@ -350,12 +415,12 @@ code {
   border: 1px solid green;
   color: #eeeeee;
   min-width: 20vh;
-  transition: inherit;
+  transition: 0.15s ease-in-out;
 }
 .created .success:hover {
   background-color: inherit;
   color: green;
-} 
+}
 .created .success:focus {
   box-shadow: none;
 }

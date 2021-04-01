@@ -13,10 +13,10 @@ export default function ChatRoom({ user }) {
   const firestore = firebase.firestore();
 
   const roomRef = firebase.firestore().doc(`chatRooms/${roomId}`);
-  const [room, loadingRoom, errRoom] = useDocument(roomRef);
+  const [room] = useDocument(roomRef);
 
   const messagesRef = firestore.collection(`chatRooms/${roomId}/messages`);
-  const messageQuery = messagesRef.orderBy("createdAt").limit(25);
+  const messageQuery = messagesRef.orderBy("createdAt", "desc").limit(25);
   const [messages] = useCollectionData(messageQuery, {
     idField: "id",
   });
@@ -36,11 +36,10 @@ export default function ChatRoom({ user }) {
     checkToAddUser(room);
   }
 
-  if (errRoom) console.log(errRoom);
+  // if (errRoom) console.log(errRoom);
 
   useEffect(() => {
-    if (!loadingRoom)
-      scrollPosition.current.scrollIntoView({ behavior: "smooth" });
+    scrollPosition.current.scrollIntoView({ behavior: "smooth" });
   });
 
   async function sendMessage(e) {
@@ -61,31 +60,29 @@ export default function ChatRoom({ user }) {
     setMessageInput("");
   }
 
-  return loadingRoom ? (
-    <p>Loading...</p>
-  ) : (
+  return (
     <div className="container noPadding chat">
       <section className="mainBackground">
         <div className="messagesContainer">
           <div className="chatHead">
-            <h1> {room.data().roomName} </h1>
-            <code>{roomId}</code>
+            {/* <h1> {room.data().roomName} </h1>
+            <code>{roomId}</code> */}
           </div>
 
           {messages &&
-            messages.map((msg) => (
+            messages.reverse().map((msg) => (
               <ChatMessage key={msg.id} message={msg} curUserID={curUserID} />
             ))}
 
           <div ref={scrollPosition} className="bottomScrollPosition"></div>
         </div>
 
-        <form onSubmit={sendMessage} className="messageInputForm">
+        <form onSubmit={sendMessage} className="messageInputForm container">
           <input
             value={messageInput}
             onChange={(e) => setMessageInput(e.target.value)}
           />
-          <button type="submit" id="mainFormSubmit" className="btn btn-primary">
+          <button type="submit" id="mainFormSubmit" className="btn">
             Send
           </button>
         </form>
