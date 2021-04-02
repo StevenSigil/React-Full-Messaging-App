@@ -33,12 +33,6 @@ firebase.firestore();
 export default function App() {
   const [user] = useAuthState(firebase.auth());
 
-  // if (loading) {
-  //   return <p>Loading...</p>;
-  // }
-  // if (error) console.log(error);
-  
-
   return (
     <BrowserRouter>
       <Header user={user} />

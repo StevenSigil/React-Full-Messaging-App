@@ -109,6 +109,12 @@ code {
   max-width: 992px;
   margin: auto;
 }
+.authFormOuter  .form-innerDiv {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  margin-bottom: 1rem;
+}
 .authFormOuter input {
   align-self: stretch;
   width: initial;
@@ -242,6 +248,7 @@ code {
 }
 .btn-container .lighter {
   color: rgb(0, 153, 255) !important;
+  /* color: rgba(24, 24, 24, 0.473); */
 }
 .updateName-main {
   text-align: center;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import firebase from "firebase/app";
@@ -34,15 +34,14 @@ export default function Main(props) {
   const [hideConfirm, setHideConfirm] = useState(true);
   const [hideErrAlert, setHideErrAlert] = useState(true);
 
-  // if (user && !user.displayName) {
-  //   return (
-  //     <div className="container noPadding">
-  //       <section className="mainBackground">
-  //         <UpdateDisplayName user={user} />
-  //       </section>
-  //     </div>
-  //   );
-  // }
+  const [hideUpdateNameModal, setHideUpdateNameModal] = useState(true);
+
+  useEffect(() => {
+    if (user) {
+      console.log(user.displayName);
+      if (!user.displayName) setHideUpdateNameModal(false);
+    }
+  }, [user, setHideUpdateNameModal]);
 
   function addUserToRoom(e) {
     e.preventDefault();
@@ -166,6 +165,12 @@ export default function Main(props) {
       </section>
       <RoomAddedAlert />
       <RoomErrorAlert />
+
+      <UpdateDisplayName
+        user={user}
+        hideModal={hideUpdateNameModal}
+        setHideModal={setHideUpdateNameModal}
+      />
     </div>
   ) : (
     <p>err</p>
@@ -244,39 +249,70 @@ function DateTimeDiff({ a, b }) {
   return `${diffM} minute${diffM !== 1 ? "s" : null} ago.`;
 }
 
-// function UpdateDisplayName({ user }) {
-//   const history = useHistory();
-//   const [displayName, setDisplayName] = useState("");
+function UpdateDisplayName({ user, hideModal, setHideModal }) {
+  const [newName, setNewName] = useState("");
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
-//   function updateDisplayName(e) {
-//     e.preventDefault();
+  function handleChange(input) {
+    setNewName(input);
+    if (input.length > 1) {
+      setBtnDisabled(false);
+    }
+  }
 
-//     user
-//       .updateProfile({
-//         displayName: displayName,
-//       })
-//       .then(() => {
-//         return <Main />;
-//       })
-//       .catch((error) => console.log(error));
-//   }
+  function handleSubmit() {
+    user
+      .updateProfile({
+        displayName: newName,
+      })
+      .then(() => {
+        setHideModal(true);
+        return user;
+      })
+      .catch((error) => console.log(error));
+  }
 
-//   return (
-//     <div className="updateName-main">
-//       <h1>Please update your display name to continue.</h1>
-
-//       <form onSubmit={updateDisplayName}>
-//         <input
-//           type="text"
-//           value={displayName}
-//           className="form-control"
-//           onChange={(e) => setDisplayName(e.target.value)}
-//           placeholder="Display Name"
-//         />
-//         <button type="submit" className="btn">
-//           Continue
-//         </button>
-//       </form>
-//     </div>
-//   );
-// }
+  return (
+    <>
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          minWidth: "100vw",
+          minHeight: "100vh",
+          backgroundColor: "rgba(24, 24, 24, 0.473)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        hidden={hideModal}
+      >
+        <div style={{ minWidth: "30vw", minHeight: "20vh" }} className="card">
+          <div className="card-body">
+            <h5 className="card-title">
+              Please update your display name to continue
+            </h5>
+            <input
+              type="text"
+              placeholder="Enter a new display name here"
+              className="form-control"
+              value={newName}
+              onChange={(e) => handleChange(e.target.value)}
+            />
+          </div>
+          <div className="card-footer">
+            <button
+              disabled={btnDisabled}
+              type="button"
+              className="btn"
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
