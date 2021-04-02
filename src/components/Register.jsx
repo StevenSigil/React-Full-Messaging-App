@@ -2,10 +2,10 @@ import React, { useState } from "react";
 
 import firebase from "firebase/app";
 import "firebase/auth";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 
 export default function Register() {
-  const history = useHistory();
+  // const history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,8 +20,8 @@ export default function Register() {
   function handleRegistration(e) {
     e.preventDefault();
 
-    const x = checkEmailPassword(email, password, setFormErr);
-    if (Object.values(x).includes(false)) {
+    const validatedInput = checkEmailPassword(email, password, setFormErr);
+    if (Object.values(validatedInput).includes(false)) {
       console.log("Error submitting registration data.");
       return;
     }
@@ -29,7 +29,7 @@ export default function Register() {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => history.push("/main"))
+      // .then(() => history.push("/main"))
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
           setEmailErrText(
@@ -65,7 +65,7 @@ export default function Register() {
                 required
                 id="registerEmail"
                 placeholder="Email"
-                className={formErr.email ? "form-control is-invalid" : null}
+                className={formErr.email ? "form-control is-invalid" : "form-control"}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -83,7 +83,7 @@ export default function Register() {
                 id="registerPassword"
                 aria-describedby="passwordHelp"
                 placeholder="Password"
-                className={formErr.password ? "form-control is-invalid" : null}
+                className={formErr.password ? "form-control is-invalid" : "form-control"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />

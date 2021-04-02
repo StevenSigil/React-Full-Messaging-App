@@ -109,7 +109,7 @@ code {
   max-width: 992px;
   margin: auto;
 }
-.authFormOuter  .form-innerDiv {
+.authFormOuter .form-innerDiv {
   display: flex;
   flex-direction: column;
   align-self: stretch;
@@ -145,9 +145,6 @@ code {
   justify-content: space-around;
   padding: 0.5rem;
 }
-.lowerContainer button {
-  /* margin: 0.5rem 0; */
-}
 .main-chatRoomSingleContainer {
   font-size: 1.25em;
 }
@@ -170,7 +167,6 @@ code {
 .roomCard .buttons a {
   margin: 0.5rem 1rem;
   font-size: 0.75em;
-  /* font-weight: 500; */
   color: red;
   text-decoration: initial;
 }
@@ -192,7 +188,6 @@ code {
   flex-wrap: wrap;
   align-self: center;
   max-width: 55%;
-  /* color: #eee; */
 }
 .roomName:hover {
   cursor: pointer;
@@ -206,7 +201,6 @@ code {
   align-self: center;
   margin: 0 0.25rem;
   width: max-content;
-  /* padding: 0.5rem; */
 }
 .roomName code {
   font-size: 0.5em;
@@ -238,7 +232,6 @@ code {
   text-align: center;
 }
 .btn-container button {
-  /* margin: 0; */
   font-size: 0.62em;
   font-size: 1.25em;
   transition: 0.15s ease-in-out;
@@ -248,7 +241,6 @@ code {
 }
 .btn-container .lighter {
   color: rgb(0, 153, 255) !important;
-  /* color: rgba(24, 24, 24, 0.473); */
 }
 .updateName-main {
   text-align: center;
@@ -262,7 +254,6 @@ code {
 }
 .updateName-main input {
   align-self: stretch;
-  /* width: initial; */
   padding: 0.5rem;
   border: 1px solid rgb(68, 54, 73);
   border-radius: 5px;
@@ -354,7 +345,6 @@ code {
   height: 2px;
   position: static;
   bottom: 0;
-  /* display: none; */
 }
 .messageInputForm {
   max-height: calc((100vh - 100px));

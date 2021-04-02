@@ -6,22 +6,7 @@ import "firebase/firestore";
 import "firebase/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
-// export default function Main({  }) {
-//   const [user] = useAuthState(firebase.auth());
-//   return user && user.displayName ? (
-//     <MainContent user={user} />
-//   ) : (
-//     <div className="container noPadding">
-//       <section className="mainBackground">
-//         <UpdateDisplayName user={user} />
-//       </section>
-//     </div>
-//   );
-// }
-
-export default function Main(props) {
-  const user = props.user;
-
+export default function Main({ user }) {
   const history = useHistory();
 
   const firestore = firebase.firestore();
@@ -38,13 +23,18 @@ export default function Main(props) {
 
   useEffect(() => {
     if (user) {
-      console.log(user.displayName);
       if (!user.displayName) setHideUpdateNameModal(false);
     }
   }, [user, setHideUpdateNameModal]);
 
   function addUserToRoom(e) {
     e.preventDefault();
+
+    if (codeInput.length === 0) {
+      roomAlertERR(3000);
+      return;
+    }
+
     const addingRoom = firestore.collection("chatRooms").doc(codeInput);
 
     addingRoom // check if room exists
@@ -55,13 +45,12 @@ export default function Main(props) {
           addingRoom.update({
             usersInRoom: firebase.firestore.FieldValue.arrayUnion(user.uid),
           });
-          roomAlertOK(2000);
+          roomAlertOK(3000);
           setHideCodeInput(true);
         } else {
           console.log("error retrieving the specified room.");
-          roomAlertERR(2000);
+          roomAlertERR(3000);
         }
-        setCodeInput("");
       })
       .catch((error) => console.log(error));
   }
@@ -142,21 +131,34 @@ export default function Main(props) {
 
           <div className="card mt-2" hidden={hideCodeInput}>
             <div className="card-body">
-              <form onSubmit={addUserToRoom}>
-                <label htmlFor="codeInput" className="card-title">
-                  Enter the room code here:
-                </label>
-                <div style={{ display: "flex" }}>
-                  <input
-                    id="codeInput"
-                    className="form-control"
-                    placeholder="Code"
-                    value={codeInput}
-                    onChange={(e) => setCodeInput(e.target.value)}
-                  />
-                  <button type="submit" className="btn">
-                    Submit
-                  </button>
+              <form
+                onSubmit={addUserToRoom}
+                className="needs-validation"
+                noValidate
+              >
+                <div className="form-innerDiv">
+                  <label htmlFor="codeInput" className="card-title form-label">
+                    Enter the room code here:
+                  </label>
+                  <div style={{ display: "flex" }}>
+                    <input
+                      type="text"
+                      name="Room_code_input"
+                      required
+                      id="codeInput"
+                      className={
+                        !hideErrAlert
+                          ? "form-control is-invalid"
+                          : "form-control"
+                      }
+                      placeholder="Code"
+                      value={codeInput}
+                      onChange={(e) => setCodeInput(e.target.value)}
+                    />
+                    <button type="submit" className="btn">
+                      Submit
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>
