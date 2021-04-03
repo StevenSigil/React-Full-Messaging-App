@@ -312,13 +312,14 @@ code {
   align-items: center;
   padding: 0.25rem;
   min-height: fit-content;
+  margin-bottom: 1rem;
 }
 .message p {
   max-width: 500px;
-  margin: 0 0 12px;
+  margin: 5px 0 0;
   line-height: 24px;
   padding: 10px 20px;
-  border-radius: 25px;
+  border-radius: 15px;
   position: relative;
   color: white;
   text-align: center;
@@ -329,17 +330,40 @@ code {
   border-radius: 50%;
   margin: 2px 5px;
 }
+.message small {
+  /* color:rgb(133, 133, 133); */
+  align-self: flex-end;
+  position: absolute;
+  bottom: 0;
+  width: max-content;
+}
+.message > .imgDate-div {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-height: 70px;
+}
 .sent {
   flex-direction: row-reverse;
+}
+.sent img {
+  align-self: flex-end;
 }
 .sent p {
   color: white;
   background: #0b93f6;
-  align-self: flex-end;
+  align-self: flex-start;
+}
+.sent small {
+  right: 0;
 }
 .received p {
   background: #e5e5ea;
   color: black;
+  align-self: flex-start;
+}
+.received small {
+  left: 0;
 }
 .bottomScrollPosition {
   height: 2px;

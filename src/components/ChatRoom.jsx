@@ -36,8 +36,6 @@ export default function ChatRoom({ user }) {
     checkToAddUser(room);
   }
 
-  // if (errRoom) console.log(errRoom);
-
   useEffect(() => {
     scrollPosition.current.scrollIntoView({ behavior: "smooth" });
   });
@@ -70,15 +68,18 @@ export default function ChatRoom({ user }) {
           </div>
 
           {messages &&
-            messages.reverse().map((msg) => (
-              <ChatMessage key={msg.id} message={msg} curUserID={curUserID} />
-            ))}
+            messages
+              .reverse()
+              .map((msg) => (
+                <ChatMessage key={msg.id} message={msg} curUserID={curUserID} />
+              ))}
 
           <div ref={scrollPosition} className="bottomScrollPosition"></div>
         </div>
 
         <form onSubmit={sendMessage} className="messageInputForm container">
           <input
+            placeholder="Say something..."
             value={messageInput}
             onChange={(e) => setMessageInput(e.target.value)}
           />
@@ -92,13 +93,39 @@ export default function ChatRoom({ user }) {
 }
 
 function ChatMessage({ message, curUserID }) {
-  const { text, uid, photoURL } = message;
+  const { text, uid, photoURL, createdAt } = message;
+
+  const [messageDate, setMessageDate] = useState(
+    new Date().toLocaleDateString()
+  );
+  const [messageTime, setMessageTime] = useState(
+    new Date().toLocaleTimeString()
+  );
+
+  useEffect(() => {
+    if (createdAt) {
+      const messageDT = new firebase.firestore.Timestamp(
+        createdAt.seconds,
+        createdAt.nanoseconds
+      ).toDate();
+      setMessageDate(messageDT.toLocaleDateString());
+      setMessageTime(messageDT.toLocaleTimeString());
+    }
+  }, [createdAt]);
 
   const messageClass = uid === curUserID ? "sent" : "received";
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL} alt={photoURL} />
+      <div className="imgDate-div">
+        <img src={photoURL} alt={photoURL} />
+        <small className="text-muted">
+          {messageDate.slice(0, -5) +
+            " - " +
+            messageTime.slice(0, -6) +
+            messageTime.slice(-3)}
+        </small>
+      </div>
       <p> {text} </p>
     </div>
   );
