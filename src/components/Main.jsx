@@ -125,11 +125,11 @@ export default function Main({ user }) {
             Create a new chatroom
           </button>
 
-          <button onClick={() => setHideCodeInput(false)} className="btn mt-2">
-            Have a code to another room?
+          <button onClick={() => setHideCodeInput(!hideCodeInput)} className="btn mt-2">
+            Trying to join another room?
           </button>
 
-          <div className="card mt-2" hidden={hideCodeInput}>
+          <div className="card" hidden={hideCodeInput}>
             <div className="card-body">
               <form
                 onSubmit={addUserToRoom}

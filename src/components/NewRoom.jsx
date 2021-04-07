@@ -6,7 +6,7 @@ import "firebase/firestore";
 
 export default function NewRoom({ user }) {
   const [roomInput, setRoomInput] = useState("");
-  const [newRoomLocalUrl, setNewRoomLocalUrl] = useState("");
+  const [newRoomID, setNewRoomID] = useState("");
   const [newRoomFullUrl, setNewRoomFullUrl] = useState("");
 
   const history = useHistory();
@@ -25,7 +25,7 @@ export default function NewRoom({ user }) {
         usersInRoom: [user.uid],
       })
       .then((docRef) => {
-        setNewRoomLocalUrl(`/chat/${docRef.id}`);
+        setNewRoomID(docRef.id);
         setNewRoomFullUrl(`${location}/chat/${docRef.id}`);
       })
       .catch((err) => console.log(err));
@@ -60,22 +60,27 @@ export default function NewRoom({ user }) {
               <p style={{ display: "none" }} id="hiddenUrl">
                 {newRoomFullUrl}
               </p>
+              <h2>Room created!</h2>
+              <p>Invite people by sharing the link or code below!</p>
               <p>
-                Your chatroom url is{" "}
+                URL:{" "}
                 <code>
-                  <Link to={newRoomLocalUrl}>{newRoomFullUrl}</Link>
+                  <Link to={`/chat/${newRoomID}`}>{newRoomFullUrl}</Link>
                 </code>
               </p>
-              <p>Invite people by sharing this link!</p>
+              <p>
+                Code: <code>{newRoomID}</code>
+              </p>
+
               <button
-                className="btn success"
+                className="btn btn-outlins-success success"
                 onClick={handleCopyButtonClick}
               >
                 Copy
               </button>
               <button
                 className="btn primary"
-                onClick={() => history.push(newRoomLocalUrl)}
+                onClick={() => history.push(newRoomID)}
               >
                 Go to Chat
               </button>

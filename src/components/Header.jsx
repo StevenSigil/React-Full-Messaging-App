@@ -43,7 +43,7 @@ function PostLogin() {
   };
 
   return (
-    <div className="navbar-nav" style={{ flexDirection: "row" }}>
+    <div className="navbar-nav">
       <NavLink className="nav-link active" aria-current="page" to="/main">
         Main
       </NavLink>

@@ -61,15 +61,16 @@ export default function ChatRoom({ user }) {
     setMessageInput("");
   }
 
-  return (
+  return room ? (
     <div className="noPadding chat">
       <section className="mainBackground container">
-        <div className="messagesContainer" id="messagesContainer">
-          {/* <div className="chatHead"> */}
-          {/* <h1> {room.data().roomName} </h1>
-            <code>{roomId}</code> */}
-          {/* </div> */}
+      
+        <div className="chatHead">
+          <h1> {room.data().roomName} </h1>
+          {/* <code>{roomId}</code> */}
+        </div>
 
+        <div className="messagesContainer" id="messagesContainer">
           {messages &&
             messages.map((msg) => (
               <ChatMessage key={msg.id} message={msg} curUserID={curUserID} />
@@ -94,6 +95,8 @@ export default function ChatRoom({ user }) {
         </form>
       </section>
     </div>
+  ) : (
+    <p>Loading...</p>
   );
 }
 

@@ -64,6 +64,14 @@ code {
   padding-bottom: 0.5rem;
   height: inherit;
 }
+.navbar-brand {
+  font-size: 1.75em;
+  padding: 0;
+  margin-left: 1rem;
+}
+.navbar-nav {
+  flex-direction: row;
+}
 .navbar-nav a {
   margin: 0 1rem;
 }
@@ -148,7 +156,10 @@ code {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 0.5rem;
+  padding: 0.5rem 0.5rem 3rem;
+}
+.lowerContainer > .card {
+  margin: 1rem 0 0.5rem;
 }
 .main-chatRoomSingleContainer {
   font-size: 1.25em;
@@ -291,6 +302,8 @@ code {
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  position: relative;
+  min-height: 95%;
 }
 .messagesContainer::-webkit-scrollbar {
   width: 0.25rem;
@@ -302,10 +315,6 @@ code {
   background: #0168b3;
   border-radius: 1rem;
 }
-/* .bottomScrollPosition {
-  height: 2px;
-  background-color: #0b93f6;
-} */
 .messageInputForm {
   padding: 0;
   display: flex;
@@ -330,18 +339,29 @@ code {
   color: #eee;
 }
 
-/* .chatHead {
+.chatHead {
   text-align: center;
   position: fixed;
-  width: 100vw;
+  width: 100%;
   left: 0;
-  top: 78px;
-  z-index: 255;
+  right: 0;
+  bottom: 40%;
+  width: max-content;
+  max-width: 100%;
+  margin: auto;
 }
+
 .chatHead h1 {
   margin: 0;
+  font-weight: 900;
+  letter-spacing: 8px;
+  font-size: 5em;
+
+  color: rgba(68, 54, 73, 0.514);
+  text-shadow: -2px 2px 4px rgba(0, 0, 0, 0.226),
+    2px -2px 0 rgba(255, 255, 255, 0.788);
 }
-.chatHead code {
+/* .chatHead code {
   font-style: italic;
 } */
 .message {
@@ -358,7 +378,7 @@ code {
   padding: 10px 20px;
   border-radius: 15px;
   position: relative;
-  color: white;
+  color: #fff;
   text-align: center;
 }
 .message img {
@@ -386,15 +406,15 @@ code {
   align-self: flex-end;
 }
 .sent p {
-  color: white;
-  background: #0b93f6;
+  color: #fff;
+  background: #0b94f6ec;
   align-self: flex-start;
 }
 .sent small {
   right: 0;
 }
 .received p {
-  background: #e5e5ea;
+  background: #e5e5eaec;
   color: black;
   align-self: flex-start;
 }
@@ -435,17 +455,27 @@ code {
   text-align: center;
   padding: 1rem;
 }
+.created h2 {
+  font-weight: 400;
+}
+.created a {
+  font-size: 1em;
+  color: inherit;
+}
+.created a:hover {
+  text-decoration: underline 1px solid;
+}
 .created .success {
   margin: 1rem;
-  background-color: green;
+  /* background-color: green; */
   border: 1px solid green;
-  color: #eeeeee;
+  color: green;
   min-width: 20vh;
   transition: 0.15s ease-in-out;
 }
 .created .success:hover {
-  background-color: inherit;
-  color: green;
+  background-color: green;
+  color: #eee;
 }
 .created .success:focus {
   box-shadow: none;
