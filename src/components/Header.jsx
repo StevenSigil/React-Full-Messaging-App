@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -9,54 +9,53 @@ export default function Header(props) {
   const user = props.user;
 
   return (
-    <nav className="navbar container header">
-      <Link to={user ? "/main" : "/welcome"} className="navbar-brand">
-        R.M.
-      </Link>
+    <nav className="navbar">
+      <div className="container navbar-dark">
+        <NavLink to={user ? "/main" : "/welcome"} className="navbar-brand">
+          R.M.
+        </NavLink>
 
-      {user ? <PostLogin history={history} /> : <PreLogin history={history} />}
+        {user ? (
+          <PostLogin history={history} />
+        ) : (
+          <PreLogin history={history} />
+        )}
+      </div>
     </nav>
   );
 }
 
-function PreLogin({ history }) {
+function PreLogin() {
   return (
-    <div>
-      <button onClick={() => history.push("/login")} className="btn btn-dark">
+    <div className="navbar-nav" style={{ flexDirection: "row" }}>
+      <NavLink className="nav-link active" aria-current="page" to="/login">
         Login
-      </button>
+      </NavLink>
     </div>
   );
 }
 
-function PostLogin({ history }) {
-  return (
-    <div>
-      <button
-        onClick={() => history.push("/main")}
-        className="btn btn-dark twoButtonNav"
-      >
-        Main
-      </button>
-
-      <Logout history={history} />
-    </div>
-  );
-}
-
-function Logout({ history }) {
+function PostLogin() {
   const auth = firebase.auth();
 
   const handleSignOut = () => {
     auth.signOut();
-    history.push("/");
   };
 
   return (
-    auth.currentUser && (
-      <button className="btn btn-dark" onClick={handleSignOut}>
-        Sign Out
-      </button>
-    )
+    <div className="navbar-nav" style={{ flexDirection: "row" }}>
+      <NavLink className="nav-link active" aria-current="page" to="/main">
+        Main
+      </NavLink>
+
+      <NavLink
+        className="nav-link active"
+        aria-current="page"
+        onClick={handleSignOut}
+        to="/"
+      >
+        Sign out
+      </NavLink>
+    </div>
   );
 }

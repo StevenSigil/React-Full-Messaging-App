@@ -1,8 +1,13 @@
 /* Global */
+html {
+  height: -webkit-fill-available;
+}
 body {
   color: rgb(68, 54, 73);
   background-color: rgb(207, 204, 194);
   max-width: 100vw;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
   overflow-x: hidden;
   transition: 0.15s ease-in-out;
 }
@@ -44,23 +49,23 @@ code {
 }
 
 /* Navbar */
-.header {
-  background-color: rgb(68, 54, 73);
+.navbar {
   height: 60px;
   position: sticky;
   top: 0;
-  padding-top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
 }
-.header > .navbar-brand {
-  color: #eee;
-  font-size: 2em;
-  padding: 0;
+.navbar-dark {
+  background-color: rgb(68, 54, 73);
+  margin: -0.5rem auto;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  height: inherit;
 }
-.header > .navbar-brand:hover {
-  color: rgb(207, 204, 194);
-}
-.header div > .twoButtonNav {
-  margin-right: 2rem;
+.navbar-nav a {
+  margin: 0 1rem;
 }
 
 /* Welcome page */
@@ -267,21 +272,25 @@ code {
 
 /* Chat room */
 .chat {
-  max-height: calc(100vh - 60px);
-  position: relative;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  min-width: 100%;
+  display: flex;
+  overflow-y: hidden;
+  justify-content: stretch;
 }
 .chat > .mainBackground {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  margin-top: 60px;
   padding: 0;
+  justify-content: flex-end;
+  position: relative;
 }
 .messagesContainer {
   padding: 1rem 1rem;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
-  max-height: calc((100vh - 60px) - (100vh - 60px) * 0.075);
 }
 .messagesContainer::-webkit-scrollbar {
   width: 0.25rem;
@@ -293,7 +302,35 @@ code {
   background: #0168b3;
   border-radius: 1rem;
 }
-.chatHead {
+/* .bottomScrollPosition {
+  height: 2px;
+  background-color: #0b93f6;
+} */
+.messageInputForm {
+  padding: 0;
+  display: flex;
+  font-size: 1.5rem;
+  background-color: rgb(58, 58, 58);
+  border-radius: 2px;
+}
+.messageInputForm input {
+  width: 100%;
+  font-size: 1.5rem;
+  background-color: rgb(58, 58, 58);
+  color: white;
+  outline: none;
+  border: none;
+  padding: 0 10px;
+}
+.messageInputForm button {
+  width: 20%;
+  border-radius: 3px;
+  border: initial;
+  background-color: #0b93f6;
+  color: #eee;
+}
+
+/* .chatHead {
   text-align: center;
   position: fixed;
   width: 100vw;
@@ -306,7 +343,7 @@ code {
 }
 .chatHead code {
   font-style: italic;
-}
+} */
 .message {
   display: flex;
   align-items: center;
@@ -331,7 +368,6 @@ code {
   margin: 2px 5px;
 }
 .message small {
-  /* color:rgb(133, 133, 133); */
   align-self: flex-end;
   position: absolute;
   bottom: 0;
@@ -364,38 +400,6 @@ code {
 }
 .received small {
   left: 0;
-}
-.bottomScrollPosition {
-  height: 2px;
-  position: static;
-  bottom: 0;
-}
-.messageInputForm {
-  max-height: calc((100vh - 100px));
-  position: fixed;
-  bottom: 0;
-  align-self: flex-end;
-  padding: 0;
-  display: flex;
-  font-size: 1.5rem;
-  background-color: rgb(58, 58, 58);
-  border-radius: 2px;
-}
-.messageInputForm input {
-  width: 100%;
-  font-size: 1.5rem;
-  background-color: rgb(58, 58, 58);
-  color: white;
-  outline: none;
-  border: none;
-  padding: 0 10px;
-}
-.messageInputForm button {
-  width: 20%;
-  border-radius: 3px;
-  border: initial;
-  background-color: #0b93f6;
-  color: #eee;
 }
 
 /* New Room page */

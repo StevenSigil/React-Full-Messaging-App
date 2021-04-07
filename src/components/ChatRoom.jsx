@@ -9,7 +9,7 @@ import { useCollectionData, useDocument } from "react-firebase-hooks/firestore";
 export default function ChatRoom({ user }) {
   const curUserID = user.uid;
   const { roomId } = useParams();
-  const scrollPosition = useRef(); // div to scroll to after submit
+  const scrollPosition = useRef(null);
   const firestore = firebase.firestore();
 
   const roomRef = firebase.firestore().doc(`chatRooms/${roomId}`);
@@ -17,9 +17,10 @@ export default function ChatRoom({ user }) {
 
   const messagesRef = firestore.collection(`chatRooms/${roomId}/messages`);
   const messageQuery = messagesRef.orderBy("createdAt", "desc").limit(25);
-  const [messages] = useCollectionData(messageQuery, {
+  const [rawMessages] = useCollectionData(messageQuery, {
     idField: "id",
   });
+  const messages = rawMessages && rawMessages.reverse();
 
   const [messageInput, setMessageInput] = useState("");
 
@@ -37,8 +38,10 @@ export default function ChatRoom({ user }) {
   }
 
   useEffect(() => {
-    scrollPosition.current.scrollIntoView({ behavior: "smooth" });
-  });
+    if (scrollPosition.current) {
+      scrollPosition.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [rawMessages]);
 
   async function sendMessage(e) {
     // Adds the message to the collection of messages and updates 'lastMessageTime' field.
@@ -59,25 +62,27 @@ export default function ChatRoom({ user }) {
   }
 
   return (
-    <div className="container noPadding chat">
-      <section className="mainBackground">
-        <div className="messagesContainer">
-          <div className="chatHead">
-            {/* <h1> {room.data().roomName} </h1>
+    <div className="noPadding chat">
+      <section className="mainBackground container">
+        <div className="messagesContainer" id="messagesContainer">
+          {/* <div className="chatHead"> */}
+          {/* <h1> {room.data().roomName} </h1>
             <code>{roomId}</code> */}
-          </div>
+          {/* </div> */}
 
           {messages &&
-            messages
-              .reverse()
-              .map((msg) => (
-                <ChatMessage key={msg.id} message={msg} curUserID={curUserID} />
-              ))}
+            messages.map((msg) => (
+              <ChatMessage key={msg.id} message={msg} curUserID={curUserID} />
+            ))}
 
           <div ref={scrollPosition} className="bottomScrollPosition"></div>
         </div>
 
-        <form onSubmit={sendMessage} className="messageInputForm container">
+        <form
+          onSubmit={sendMessage}
+          className="messageInputForm container"
+          id="t1"
+        >
           <input
             placeholder="Say something..."
             value={messageInput}
