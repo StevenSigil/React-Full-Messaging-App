@@ -64,7 +64,6 @@ export default function ChatRoom({ user }) {
   return room ? (
     <div className="noPadding chat">
       <section className="mainBackground container">
-      
         <div className="chatHead">
           <h1> {room.data().roomName} </h1>
           {/* <code>{roomId}</code> */}

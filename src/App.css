@@ -161,6 +161,13 @@ code {
 .lowerContainer > .card {
   margin: 1rem 0 0.5rem;
 }
+.joinButtons > .card-body {
+  display: flex;
+  justify-content: space-evenly;
+}
+.joinButtons button {
+  margin: 0 1rem;
+}
 .main-chatRoomSingleContainer {
   font-size: 1.25em;
 }

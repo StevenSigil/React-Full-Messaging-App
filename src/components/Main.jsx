@@ -15,11 +15,18 @@ export default function Main({ user }) {
   const [rooms, loading] = useCollectionData(roomQuery, { idField: "id" });
 
   const [codeInput, setCodeInput] = useState("");
+  const [roomNameInput, setRoomNameInput] = useState("");
+
+  const [hideJoinButtons, setHideJoinButtons] = useState(true);
   const [hideCodeInput, setHideCodeInput] = useState(true);
+  const [hideRoomNameForm, setHideRoomNameForm] = useState(true);
+
   const [hideConfirm, setHideConfirm] = useState(true);
   const [hideErrAlert, setHideErrAlert] = useState(true);
 
   const [hideUpdateNameModal, setHideUpdateNameModal] = useState(true);
+
+  const [roomNameSearchResults, setRoomNameSearchResults] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -27,9 +34,36 @@ export default function Main({ user }) {
     }
   }, [user, setHideUpdateNameModal]);
 
-  function addUserToRoom(e) {
+  function lookupRoomWithName(e) {
     e.preventDefault();
+    setRoomNameSearchResults([]);
 
+    if (roomNameInput.length === 0) {
+      roomAlertERR(3000);
+      return;
+    }
+    const searchRoomName = roomNameInput.toLowerCase().split(" ").join("");
+
+    firestore
+      .collection("chatRooms")
+      .where("searchName", ">=", searchRoomName)
+      .where("searchName", "<=", searchRoomName + "\uf8ff")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          var docObj = doc.data();
+          docObj.id = doc.id;
+          setRoomNameSearchResults((prev) => {
+            return [...prev, docObj];
+          });
+        });
+      })
+      .catch((error) => console.log(error));
+  }
+  console.log(roomNameSearchResults);
+
+  function addUserToRoomWithRoomID(e) {
+    e.preventDefault();
     if (codeInput.length === 0) {
       roomAlertERR(3000);
       return;
@@ -47,6 +81,7 @@ export default function Main({ user }) {
           });
           roomAlertOK(3000);
           setHideCodeInput(true);
+          setHideJoinButtons(true);
         } else {
           console.log("error retrieving the specified room.");
           roomAlertERR(3000);
@@ -81,7 +116,6 @@ export default function Main({ user }) {
       </div>
     );
   }
-
   function roomAlertOK(duration) {
     setHideConfirm(false);
     setTimeout(function () {
@@ -95,6 +129,29 @@ export default function Main({ user }) {
     }, duration);
   }
 
+  function JoinButtons() {
+    return (
+      <>
+        <div className="card joinButtons">
+          <div className="card-body">
+            <button
+              className="btn"
+              onClick={() => setHideCodeInput(!hideCodeInput)}
+            >
+              Join with a room ID
+            </button>
+            <button
+              className="btn"
+              onClick={() => setHideRoomNameForm(!hideRoomNameForm)}
+            >
+              Lookup by room name
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return user ? (
     <div className="container noPadding">
       <section className="mainBackground main">
@@ -102,68 +159,64 @@ export default function Main({ user }) {
           <h1>Your chatroom's</h1>
         </div>
 
-        {loading ? <p>Loading...</p> : null}
-
-        <div className="lowerContainer">
-          <div className="main-chatRoomSingleContainer">
-            {rooms
-              ? rooms.map((room) => {
-                  return (
-                    <SingleChatRoom
-                      key={room.id}
-                      room={room}
-                      roomRef={roomRef}
-                      user={user}
-                      history={history}
-                    />
-                  );
-                })
-              : null}
-          </div>
-
-          <button onClick={() => history.push("new-room")} className="btn mt-2">
-            Create a new chatroom
-          </button>
-
-          <button onClick={() => setHideCodeInput(!hideCodeInput)} className="btn mt-2">
-            Trying to join another room?
-          </button>
-
-          <div className="card" hidden={hideCodeInput}>
-            <div className="card-body">
-              <form
-                onSubmit={addUserToRoom}
-                className="needs-validation"
-                noValidate
-              >
-                <div className="form-innerDiv">
-                  <label htmlFor="codeInput" className="card-title form-label">
-                    Enter the room code here:
-                  </label>
-                  <div style={{ display: "flex" }}>
-                    <input
-                      type="text"
-                      name="Room_code_input"
-                      required
-                      id="codeInput"
-                      className={
-                        !hideErrAlert
-                          ? "form-control is-invalid"
-                          : "form-control"
-                      }
-                      placeholder="Code"
-                      value={codeInput}
-                      onChange={(e) => setCodeInput(e.target.value)}
-                    />
-                    <button type="submit" className="btn">
-                      Submit
-                    </button>
-                  </div>
-                </div>
-              </form>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="lowerContainer">
+            <div className="main-chatRoomSingleContainer">
+              {rooms
+                ? rooms.map((room) => {
+                    return (
+                      <SingleChatRoom
+                        key={room.id}
+                        room={room}
+                        roomRef={roomRef}
+                        user={user}
+                        history={history}
+                      />
+                    );
+                  })
+                : null}
             </div>
+
+            <button
+              onClick={() => history.push("new-room")}
+              className="btn mt-2"
+            >
+              Create a new chatroom
+            </button>
+
+            <button
+              onClick={() => setHideJoinButtons(!hideJoinButtons)}
+              className="btn mt-2"
+            >
+              Trying to join another room?
+            </button>
+
+            {!hideJoinButtons ? <JoinButtons /> : null}
+
+            <RoomCodeInputForm
+              hideCodeInput={hideCodeInput}
+              addUserToRoomWithRoomID={addUserToRoomWithRoomID}
+              hideErrAlert={hideErrAlert}
+              codeInput={codeInput}
+              setCodeInput={setCodeInput}
+            />
+
+            <RoomNameInputForm
+              hideRoomNameForm={hideRoomNameForm}
+              lookupRoomWithName={lookupRoomWithName}
+              hideErrAlert={hideErrAlert}
+              roomNameInput={roomNameInput}
+              setRoomNameInput={setRoomNameInput}
+            />
+
+            {roomNameSearchResults &&
+              roomNameSearchResults.map((result) => {
+                return <RoomResults key={result.id} result={result} />;
+              })}
           </div>
-        </div>
+        )}
       </section>
       <RoomAddedAlert />
       <RoomErrorAlert />
@@ -176,6 +229,130 @@ export default function Main({ user }) {
     </div>
   ) : (
     <p>err</p>
+  );
+}
+
+function RoomNameInputForm(props) {
+  const hideRoomNameForm = props.hideRoomNameForm;
+  const lookupRoomWithName = props.lookupRoomWithName;
+  const hideErrAlert = props.hideErrAlert;
+  const roomNameInput = props.roomNameInput;
+  const setRoomNameInput = props.setRoomNameInput;
+
+  return (
+    <div className="card" hidden={hideRoomNameForm}>
+      <div className="card-body">
+        <form
+          onSubmit={lookupRoomWithName}
+          className="needs-validation"
+          noValidate
+        >
+          <div className="form-innerDiv">
+            <label htmlFor="roomNameInput" className="card-title form-label">
+              Enter the name of the room here:
+            </label>
+            <div style={{ display: "flex" }}>
+              <input
+                type="text"
+                name="Room_name_input"
+                required
+                id="roomNameInput"
+                className={
+                  !hideErrAlert ? "form-control is-invalid" : "form-control"
+                }
+                placeholder="Room name"
+                value={roomNameInput}
+                onChange={(e) => setRoomNameInput(e.target.value)}
+              />
+              <button type="submit" className="btn">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
+function RoomResults({ result }) {
+  var createdAt = new firebase.firestore.Timestamp(
+    result.createdAt.seconds,
+    result.createdAt.nanoseconds
+  )
+    .toDate()
+    .toLocaleDateString();
+
+  var lastMessageAt;
+  if (result.lastMessageTime) {
+    lastMessageAt = new firebase.firestore.Timestamp(
+      result.lastMessageTime.seconds,
+      result.lastMessageTime.nanoseconds
+    ).toDate();
+  } else lastMessageAt = null;
+
+  return (
+    <div className="card" hidden={false}>
+      <div className="card-body">
+        <h5 className="card-title">{result.roomName}</h5>
+        <h6 className="card-subtitle mb-2 text-muted">ID: {result.id}</h6>
+        <p className="text-muted m-0">Created: {createdAt}</p>
+        <p className="text-muted m-0">
+          Active users: {result.usersInRoom.length}
+        </p>
+
+        {result.lastMessageTime ? (
+          <p className="text-muted m-0">
+            Last message: <DateTimeDiff a={lastMessageAt} b={new Date()} />{" "}
+          </p>
+        ) : null}
+      </div>
+
+      {/* TODO: Add a button to join the room here! */}
+    </div>
+  );
+}
+
+function RoomCodeInputForm(props) {
+  const hideCodeInput = props.hideCodeInput;
+  const addUserToRoomWithRoomID = props.addUserToRoomWithRoomID;
+  const hideErrAlert = props.hideErrAlert;
+  const codeInput = props.codeInput;
+  const setCodeInput = props.setCodeInput;
+
+  return (
+    <div className="card" hidden={hideCodeInput}>
+      <div className="card-body">
+        <form
+          onSubmit={addUserToRoomWithRoomID}
+          className="needs-validation"
+          noValidate
+        >
+          <div className="form-innerDiv">
+            <label htmlFor="codeInput" className="card-title form-label">
+              Enter the room code here:
+            </label>
+            <div style={{ display: "flex" }}>
+              <input
+                type="text"
+                name="Room_code_input"
+                required
+                id="codeInput"
+                className={
+                  !hideErrAlert ? "form-control is-invalid" : "form-control"
+                }
+                placeholder="Code"
+                value={codeInput}
+                onChange={(e) => setCodeInput(e.target.value)}
+              />
+              <button type="submit" className="btn">
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }
 

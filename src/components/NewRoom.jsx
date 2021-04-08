@@ -20,6 +20,7 @@ export default function NewRoom({ user }) {
       .collection("chatRooms")
       .add({
         roomName: roomInput,
+        searchName: roomInput.toLowerCase().split(" ").join(""),
         createdAt: firebase.firestore.Timestamp.now(),
         uid: user.uid,
         usersInRoom: [user.uid],
