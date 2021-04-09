@@ -78,11 +78,11 @@
       "sizes": "128x128"
     }
   ],
-  "start_url": "/",
+  "start_url": "/welcome",
+  "scope": "/",
   "background_color": "#cfccc2",
   "display_override": ["window-control-overlay", "minimal-ui"],
   "display": "standalone",
-  "scope": "/",
   "theme_color": "#cfccc2",
   "description": "Messaging application using React and Firebase with react-firebase-hooks providing stateful updates to components",
   "screenshots": [],

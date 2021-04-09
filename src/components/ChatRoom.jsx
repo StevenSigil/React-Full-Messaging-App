@@ -17,10 +17,10 @@ export default function ChatRoom({ user }) {
 
   const messagesRef = firestore.collection(`chatRooms/${roomId}/messages`);
   const messageQuery = messagesRef.orderBy("createdAt", "desc").limit(25);
-  const [rawMessages] = useCollectionData(messageQuery, {
+  const [messages] = useCollectionData(messageQuery, {
     idField: "id",
   });
-  const messages = rawMessages && rawMessages.reverse();
+  // const messages = messages && messages.reverse();
 
   const [messageInput, setMessageInput] = useState("");
 
@@ -41,7 +41,7 @@ export default function ChatRoom({ user }) {
     if (scrollPosition.current) {
       scrollPosition.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [rawMessages]);
+  }, [messages]);
 
   async function sendMessage(e) {
     // Adds the message to the collection of messages and updates 'lastMessageTime' field.
@@ -70,12 +70,13 @@ export default function ChatRoom({ user }) {
         </div>
 
         <div className="messagesContainer" id="messagesContainer">
+        <div ref={scrollPosition} className="bottomScrollPosition"></div>
           {messages &&
             messages.map((msg) => (
               <ChatMessage key={msg.id} message={msg} curUserID={curUserID} />
             ))}
 
-          <div ref={scrollPosition} className="bottomScrollPosition"></div>
+          
         </div>
 
         <form
