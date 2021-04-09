@@ -164,9 +164,11 @@ code {
 .joinButtons > .card-body {
   display: flex;
   justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 .joinButtons button {
-  margin: 0 1rem;
+  margin: 0.5rem;
+  min-width: max-content;
 }
 .main-chatRoomSingleContainer {
   font-size: 1.25em;
@@ -286,6 +288,38 @@ code {
   background-color: rgb(230, 230, 230);
   border: 1px solid rgb(68, 54, 73);
   box-shadow: none;
+}
+.roomSearchCard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.joinButton {
+  display: flex;
+  align-self: center;
+  align-content: center;
+  justify-content: flex-end;
+}
+.joinButton button {
+  min-width: max-content;
+  max-height: max-content;
+}
+
+/* UpdateDisplayName (DIY-modal) */
+.diyModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: rgba(24, 24, 24, 0.473);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.diyModal > .card {
+  min-width: 30vw;
+  min-height: 20vh;
 }
 
 /* Chat room */
