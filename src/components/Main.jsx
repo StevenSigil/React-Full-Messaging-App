@@ -99,8 +99,8 @@ function SingleChatRoom({ room, roomRef, user, history }) {
       <div className="row g-0">
         <div className="col-md-8">
           <div className="card-body">
-            <h5 className="card-title">{room.roomName}</h5>
-            <h6 className="card-subtitle mb-2 text-muted">{room.id}</h6>
+            <h2 className="card-title">{room.roomName}</h2>
+            <h3 className="card-subtitle mb-2 text-muted">{room.id}</h3>
 
             {room.lastMessageTime ? (
               <p className="text-muted">

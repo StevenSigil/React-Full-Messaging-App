@@ -176,6 +176,12 @@ code {
 .roomCard .card-body {
   padding: 0.5rem;
 }
+.card-title {
+  font-size: 1.25em;
+}
+.card-body h3 {
+  font-size: 0.75em;
+}
 .roomCard p {
   font-size: 0.75em;
   margin-bottom: 0.5rem;
@@ -192,7 +198,7 @@ code {
 .roomCard .buttons a {
   margin: 0.5rem 1rem;
   font-size: 0.75em;
-  color: red;
+  color: #dc3545;
   text-decoration: initial;
 }
 .singleRoom-Main {

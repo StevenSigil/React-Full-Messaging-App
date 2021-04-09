@@ -46,7 +46,7 @@ export default function JoinOtherRoom({ user }) {
     <>
       <div className="card joinButtons">
         <div className="card-body">
-          <h5 className="card-title">Trying to join another room?</h5>
+          <h2 className="card-title">Trying to join another room?</h2>
         </div>
         <div className="card-body">
           <button
@@ -205,9 +205,9 @@ function RoomResults({ user, result, setHideErrAlert, foundResetFunction }) {
   return (
     <div className="card roomSearchCard" hidden={false}>
       <div className="card-body">
-        <h5 className="card-title">{result.roomName}</h5>
+        <h2 className="card-title">{result.roomName}</h2>
 
-        <h6 className="card-subtitle mb-2 text-muted">ID: {result.id}</h6>
+        <h3 className="card-subtitle mb-2 text-muted">ID: {result.id}</h3>
 
         <p className="text-muted m-0">Created: {createdAt}</p>
 

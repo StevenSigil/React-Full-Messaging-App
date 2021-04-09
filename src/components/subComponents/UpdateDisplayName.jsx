@@ -28,9 +28,9 @@ export default function UpdateDisplayName({ user, hideModal, setHideModal }) {
       <div className="diyModal" hidden={hideModal}>
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title">
+            <h2 className="card-title">
               Please update your display name to continue
-            </h5>
+            </h2>
             <input
               type="text"
               placeholder="Enter a new display name here"
