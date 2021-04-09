@@ -16,7 +16,7 @@ a {
   transition: color 0.15s ease-in-out;
 }
 code {
-  color: rgb(0, 153, 255);
+  color: #0d6efd;
 }
 .mainBackground {
   background-color: rgb(255, 255, 255);
@@ -34,7 +34,7 @@ code {
 }
 .btn:hover {
   background-color: rgb(68, 54, 73);
-  color: #eee;
+  color: #ffffff;
 }
 .customAlert {
   position: fixed;
@@ -211,7 +211,7 @@ code {
   transition: 0.15s ease-in-out;
 }
 .singleRoom-Main:hover {
-  color: #eee;
+  color: #ffffff;
   background-color: rgb(68, 54, 73);
   transition: 0.15s ease-in-out;
 }
@@ -237,42 +237,6 @@ code {
 .roomName code {
   font-size: 0.5em;
   font-style: italic;
-}
-.btn-container {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 40%;
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem;
-  color: rgb(0, 153, 255);
-  font-size: 0.6em;
-  font-weight: 600;
-}
-.btn-container div {
-  display: flex;
-  flex-wrap: nowrap;
-  width: max-content;
-  word-wrap: break-word;
-}
-.btn-container p,
-.btn-container button {
-  border: none;
-}
-.btn-container p {
-  margin: 0 5px 0 0;
-  text-align: center;
-}
-.btn-container button {
-  font-size: 0.62em;
-  font-size: 1.25em;
-  transition: 0.15s ease-in-out;
-}
-.btn-container button:focus {
-  box-shadow: none;
-}
-.btn-container .lighter {
-  color: rgb(0, 153, 255) !important;
 }
 .updateName-main {
   text-align: center;
@@ -385,8 +349,8 @@ code {
   width: 20%;
   border-radius: 3px;
   border: initial;
-  background-color: #0b93f6;
-  color: #eee;
+  background-color: #0d6efd;
+  color: #ffffff;
 }
 
 .chatHead {
@@ -457,7 +421,7 @@ code {
 }
 .sent p {
   color: #fff;
-  background: #0b94f6ec;
+  background: #0d6efd;
   align-self: flex-start;
 }
 .sent small {
@@ -525,20 +489,20 @@ code {
 }
 .created .success:hover {
   background-color: green;
-  color: #eee;
+  color: #ffffff;
 }
 .created .success:focus {
   box-shadow: none;
 }
 .created .primary {
   margin: 1rem;
-  border: 1px solid blue;
-  color: blue;
+  border: 1px solid #0d6efd;
+  color: #0d6efd;
   min-width: 20vh;
 }
 .created .primary:hover {
-  background-color: blue;
-  color: #eee;
+  background-color: #0d6efd;
+  color: #ffffff;
 }
 .created .primary:focus {
   box-shadow: none;

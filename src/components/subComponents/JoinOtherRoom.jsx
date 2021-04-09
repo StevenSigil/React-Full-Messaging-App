@@ -227,15 +227,15 @@ function RoomResults({ user, result, setHideErrAlert, foundResetFunction }) {
       <div className="card-body joinButton">
         <button
           className="btn"
-          onClick={(e) =>
+          onClick={(e) => {
             addUserToRoomWithRoomID(
               e,
               result.id,
-              user.uid,
+              user,
               foundResetFunction,
               () => roomAlertERR(3000, setHideErrAlert)
-            )
-          }
+            );
+          }}
         >
           Join this room
         </button>
@@ -267,7 +267,7 @@ function RoomCodeInputForm({
           className="needs-validation"
           noValidate
           onSubmit={(e) =>
-            addUserToRoomWithRoomID(e, codeInput, user.uid, okReset, () =>
+            addUserToRoomWithRoomID(e, codeInput, user, okReset, () =>
               roomAlertERR(3000, setHideErrAlert)
             )
           }

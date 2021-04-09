@@ -1,6 +1,8 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 
+import smLogo from "../../public/static/media/favicon-196x196.png";
+
 export function DateTimeDiff({ a, b }) {
   // a and b are Date obj.'s
   const diffMs = Math.abs(b - a);
@@ -20,7 +22,7 @@ export function DateTimeDiff({ a, b }) {
 export function addUserToRoomWithRoomID(
   e,
   roomID,
-  userID,
+  user,
   okResetFunc,
   badResReset
 ) {
@@ -40,9 +42,14 @@ export function addUserToRoomWithRoomID(
     .then((doc) => {
       if (doc.exists) {
         addingRoom.update({
-          usersInRoom: firebase.firestore.FieldValue.arrayUnion(userID),
+          usersInRoom: firebase.firestore.FieldValue.arrayUnion(user.uid),
         });
         okResetFunc();
+
+        sendMessageFromAdmin(
+          addingRoom,
+          `User ${user.displayName} has joined the chat!`
+        );
       } else {
         console.log("error retrieving the specified room.");
         badResReset();
@@ -58,4 +65,20 @@ export function convertTimeFromFirebaseTimeStamp(rawTime) {
   ).toDate();
 
   return lastMessageDt;
+}
+
+export function sendMessageFromAdmin(roomDocument, message) {
+  // With a valid roomDocument => firebase.firestore.collection().doc()...
+  // adds an automated message to the chatroom from the 'admin'
+  const createdAt = firebase.firestore.FieldValue.serverTimestamp();
+
+  roomDocument
+    .collection("messages")
+    .add({
+      text: message,
+      createdAt,
+      photoURL: smLogo,
+    })
+    .then(() => roomDocument.update({ lastMessageTime: createdAt }))
+    .catch((err) => console.log(err));
 }

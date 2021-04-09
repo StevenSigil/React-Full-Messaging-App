@@ -11,7 +11,9 @@ import JoinOtherRoom from "./subComponents/JoinOtherRoom";
 import {
   DateTimeDiff,
   convertTimeFromFirebaseTimeStamp,
+  sendMessageFromAdmin,
 } from "./subComponents/Util";
+import Loading from "./subComponents/Loading";
 
 export default function Main({ user }) {
   const history = useHistory();
@@ -29,43 +31,38 @@ export default function Main({ user }) {
     }
   }, [user, setHideUpdateNameModal]);
 
-  return user ? (
+  return loading ? (
+    <Loading user={user} />
+  ) : (
     <div className="container noPadding">
       <section className="mainBackground main">
         <div className="main-head">
           <h1>Your chatroom's</h1>
         </div>
 
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <div className="lowerContainer">
-            <div className="main-chatRoomSingleContainer">
-              {rooms
-                ? rooms.map((room) => {
-                    return (
-                      <SingleChatRoom
-                        key={room.id}
-                        room={room}
-                        roomRef={roomRef}
-                        user={user}
-                        history={history}
-                      />
-                    );
-                  })
-                : null}
-            </div>
-
-            <button
-              onClick={() => history.push("new-room")}
-              className="btn mt-2"
-            >
-              Create a new chatroom
-            </button>
-
-            <JoinOtherRoom user={user} />
+        <div className="lowerContainer">
+          <div className="main-chatRoomSingleContainer">
+            {rooms
+              ? rooms.map((room) => {
+                  return (
+                    <SingleChatRoom
+                      key={room.id}
+                      room={room}
+                      roomRef={roomRef}
+                      user={user}
+                      history={history}
+                    />
+                  );
+                })
+              : null}
           </div>
-        )}
+
+          <button onClick={() => history.push("new-room")} className="btn mt-2">
+            Create a new chatroom
+          </button>
+
+          <JoinOtherRoom user={user} />
+        </div>
       </section>
 
       <UpdateDisplayName
@@ -74,8 +71,6 @@ export default function Main({ user }) {
         setHideModal={setHideUpdateNameModal}
       />
     </div>
-  ) : (
-    <p>err</p>
   );
 }
 
@@ -88,9 +83,16 @@ function SingleChatRoom({ room, roomRef, user, history }) {
       curDoc.delete();
       console.log(`Deleted room ${room.id}`);
     } else {
-      curDoc.update({
-        usersInRoom: firebase.firestore.FieldValue.arrayRemove(user.uid),
-      });
+      curDoc
+        .update({
+          usersInRoom: firebase.firestore.FieldValue.arrayRemove(user.uid),
+        })
+        .then(() => {
+          sendMessageFromAdmin(
+            curDoc,
+            `User ${user.displayName} has left the chat...`
+          );
+        });
     }
   }
 

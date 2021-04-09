@@ -5,6 +5,7 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import { useCollectionData, useDocument } from "react-firebase-hooks/firestore";
+import Loading from "./subComponents/Loading";
 
 export default function ChatRoom({ user }) {
   const curUserID = user.uid;
@@ -96,7 +97,7 @@ export default function ChatRoom({ user }) {
       </section>
     </div>
   ) : (
-    <p>Loading...</p>
+    <Loading />
   );
 }
 
@@ -126,7 +127,7 @@ function ChatMessage({ message, curUserID }) {
   return (
     <div className={`message ${messageClass}`}>
       <div className="imgDate-div">
-        <img src={photoURL} alt={photoURL} />
+        <img src={photoURL} alt={photoURL} width='40px' height='40px' />
         <small className="text-muted">
           {messageDate.slice(0, -5) +
             " - " +

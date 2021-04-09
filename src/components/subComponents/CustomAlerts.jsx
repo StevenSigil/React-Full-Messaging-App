@@ -3,16 +3,16 @@ import React from "react";
 export function roomAlertERR(duration, setHideAlert) {
   // Trigger function for RoomErrorAlert
   setHideAlert(false);
-  setTimeout(function () {
-    setHideAlert(true);
+  setTimeout(async function () {
+    await setHideAlert(true);
   }, duration);
 }
 
 export function roomAlertOK(duration, setHideAlert) {
   // Trigger function for RoomConfirmAlert
   setHideAlert(false);
-  setTimeout(function () {
-    setHideAlert(true);
+  setTimeout(async function () {
+    await setHideAlert(true);
   }, duration);
 }
 
