@@ -310,7 +310,7 @@ code {
   position: relative;
 }
 .messagesContainer {
-  padding: 1rem 1rem;
+  padding: 0 0.5rem;
   overflow-y: scroll;
   overflow-x: hidden;
   display: flex;
@@ -352,7 +352,6 @@ code {
   background-color: #0d6efd;
   color: #ffffff;
 }
-
 .chatHead {
   text-align: center;
   position: fixed;
@@ -360,34 +359,31 @@ code {
   left: 0;
   right: 0;
   bottom: 40%;
-  width: max-content;
   max-width: 100%;
   margin: auto;
 }
-
 .chatHead h1 {
   margin: 0;
   font-weight: 900;
   letter-spacing: 8px;
-  font-size: 5em;
+  font-size: 4.5em;
 
-  color: rgba(68, 54, 73, 0.514);
+  color: rgba(90, 78, 95, 0.267);
   text-shadow: -2px 2px 4px rgba(0, 0, 0, 0.226),
     2px -2px 0 rgba(255, 255, 255, 0.788);
 }
-/* .chatHead code {
-  font-style: italic;
-} */
 .message {
   display: flex;
-  align-items: center;
-  padding: 0.25rem;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
   min-height: fit-content;
   margin-bottom: 1rem;
+  width: 90%;
 }
 .message p {
   max-width: 500px;
-  margin: 5px 0 0;
+  margin: 0;
   line-height: 24px;
   padding: 10px 20px;
   border-radius: 15px;
@@ -402,31 +398,38 @@ code {
   border-radius: 50%;
   margin: 2px 5px;
 }
-.message small {
-  align-self: flex-end;
-  position: absolute;
+.subText {
   bottom: 0;
   width: max-content;
+  display: flex;
+  flex-direction: column;
+  margin: 0 5px;
+}
+.sent > .subText {
+  text-align: end;
+}
+.received > .subText {
+  text-align: start;
 }
 .message > .imgDate-div {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   position: relative;
-  min-height: 70px;
+  padding: 0.5rem 0;
+  align-items: flex-start;
 }
 .sent {
-  flex-direction: row-reverse;
-}
-.sent img,
-.sent .testDiv {
+  align-items: flex-end;
   align-self: flex-end;
+}
+.sent > .imgDate-div {
+  flex-direction: row-reverse;
 }
 .sent p {
   color: #fff;
   background: #0d6efd;
-  align-self: flex-start;
 }
-.sent small {
+.sent .subText {
   right: 0;
 }
 .received p {
@@ -434,7 +437,7 @@ code {
   color: black;
   align-self: flex-start;
 }
-.received small {
+.received .subText {
   left: 0;
 }
 

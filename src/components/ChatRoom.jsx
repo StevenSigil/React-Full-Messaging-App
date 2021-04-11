@@ -46,7 +46,7 @@ export default function ChatRoom({ user }) {
   async function sendMessage(e) {
     // Adds the message to the collection of messages and updates 'lastMessageTime' field.
     e.preventDefault();
-    const { uid, photoURL } = firebase.auth().currentUser;
+    const { uid, photoURL, displayName } = firebase.auth().currentUser;
 
     if (messageInput !== "") {
       const createdAt = firebase.firestore.FieldValue.serverTimestamp();
@@ -55,6 +55,7 @@ export default function ChatRoom({ user }) {
         createdAt,
         uid,
         photoURL,
+        displayName,
       });
       await roomRef.update({ lastMessageTime: createdAt });
     }
@@ -99,7 +100,7 @@ export default function ChatRoom({ user }) {
 }
 
 function ChatMessage({ message, user }) {
-  let { text, uid, photoURL, createdAt } = message;
+  let { text, createdAt, uid, photoURL, displayName } = message;
 
   const [messageDate, setMessageDate] = useState(
     new Date().toLocaleDateString()
@@ -130,14 +131,19 @@ function ChatMessage({ message, user }) {
           <NoUserPhoto displayName={user.displayName} />
         )}
 
-        <small className="text-muted">
+        <p> {text} </p>
+      </div>
+
+      <div className="subText">
+        <small className="text">{displayName}</small>
+
+        <small className="text">
           {messageDate.slice(0, -5) +
             " - " +
             messageTime.slice(0, -6) +
             messageTime.slice(-3)}
         </small>
       </div>
-      <p> {text} </p>
     </div>
   );
 }
