@@ -21,7 +21,6 @@ export default function ChatRoom({ user }) {
   const [messages] = useCollectionData(messageQuery, {
     idField: "id",
   });
-  // const messages = messages && messages.reverse();
 
   const [messageInput, setMessageInput] = useState("");
 
@@ -71,13 +70,11 @@ export default function ChatRoom({ user }) {
         </div>
 
         <div className="messagesContainer" id="messagesContainer">
-        <div ref={scrollPosition} className="bottomScrollPosition"></div>
+          <div ref={scrollPosition} className="bottomScrollPosition"></div>
           {messages &&
             messages.map((msg) => (
-              <ChatMessage key={msg.id} message={msg} curUserID={curUserID} />
+              <ChatMessage key={msg.id} message={msg} user={user} />
             ))}
-
-          
         </div>
 
         <form
@@ -101,8 +98,8 @@ export default function ChatRoom({ user }) {
   );
 }
 
-function ChatMessage({ message, curUserID }) {
-  const { text, uid, photoURL, createdAt } = message;
+function ChatMessage({ message, user }) {
+  let { text, uid, photoURL, createdAt } = message;
 
   const [messageDate, setMessageDate] = useState(
     new Date().toLocaleDateString()
@@ -122,12 +119,17 @@ function ChatMessage({ message, curUserID }) {
     }
   }, [createdAt]);
 
-  const messageClass = uid === curUserID ? "sent" : "received";
+  const messageClass = uid === user.uid ? "sent" : "received";
 
   return (
     <div className={`message ${messageClass}`}>
       <div className="imgDate-div">
-        <img src={photoURL} alt={photoURL} width='40px' height='40px' />
+        {photoURL ? (
+          <img src={photoURL} alt={photoURL} width="40px" height="40px" />
+        ) : (
+          <NoUserPhoto displayName={user.displayName} />
+        )}
+
         <small className="text-muted">
           {messageDate.slice(0, -5) +
             " - " +
@@ -139,3 +141,13 @@ function ChatMessage({ message, curUserID }) {
     </div>
   );
 }
+
+const NoUserPhoto = ({ displayName }) => {
+  const letter = displayName[0].toUpperCase();
+
+  return (
+    <div className="testDiv">
+      <h2>{letter}</h2>
+    </div>
+  );
+};
