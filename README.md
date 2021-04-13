@@ -1,9 +1,11 @@
 # React Messenger 
-## Messaging between users using React and Firebase
+## A messaging application based on react hooks and firebase via [react-firebase-hooks](https://github.com/CSFrequency/react-firebase-hooks).
+
+![React messenger META](readme_assets/META.png?raw=true)
 
 ---
 ### Summary
-A Progressive Web App (PWA) that allows two or more users to send and receive messages in 'chat rooms' which the user sets up as they wish. Using the [*react-firebase-hooks*](https://github.com/CSFrequency/react-firebase-hooks) package, the chatrooms are updated with messages and changes in realtime due to the Stateful nature of 'listening' for data.  
+A Progressive Web App (PWA) that allows two or more users to send and receive messages in 'chat rooms' which the user sets up as they wish. Using the [*react-firebase-hooks*](https://github.com/CSFrequency/react-firebase-hooks) package, the chatroom's are updated with messages and changes in realtime due to the Stateful nature of 'listening' for data.  
 
 View and install the application at https://react-full-messaging-app.vercel.app/.
 
@@ -22,70 +24,50 @@ View and install the application at https://react-full-messaging-app.vercel.app/
 ### Screenshots
 - A mixture of mobile and web to demonstrate
 
-![screenshot here!](url)
-<figcaption><strong>Description</strong></figcaption>
+![RM-Sign in page - mobile](readme_assets/screenshots/signin-mobile.png?raw=true)
+<figcaption><strong>Sign in screen - Basic authentication & OAuth enabled.</strong></figcaption>
 
 ---
 
-![screenshot here!](url)
-<figcaption><strong>Description</strong></figcaption>
+![RM-Main page - mobile](readme_assets/screenshots/main-mobile.png?raw=true)
+<figcaption><strong>Main screen after logging in - Displays your chatroom's and allows you to create or find a new one.</strong></figcaption>
 
 ---
 
-![screenshot here!](url)
-<figcaption><strong>Description</strong></figcaption>
+![RM-Main - searching for a new room with a name](readme_assets/screenshots/main_search-desktop.png?raw=true)
+<figcaption><strong>Main screen - searching for a room by [room] name.</strong></figcaption>
+To make this work, when a user sends a query string to firebase, it uses the following as the params to return based on a mostly hidden field that mostly matches the formatting of `searchRoomName` on room creation.
+
+```js
+// src/components/subComponents/JoinOtherRoom.jsx
+
+const searchRoomName = roomNameInput.toLowerCase().split(" ").join("");
+
+    firebase
+      .firestore()
+      .collection("chatRooms")
+      .where("searchName", ">=", searchRoomName)
+      .where("searchName", "<=", searchRoomName + "\uf8ff")
+      .get()
+      .then...
+```
 
 ---
 
-![screenshot here!](url)
-<figcaption><strong>Description</strong></figcaption>
-
----
-
-![screenshot here!](url)
-<figcaption><strong>Description</strong></figcaption>
+![RM-Chatroom](readme_assets/screenshots/chatroom-mobile.png?raw=true)
+<figcaption><strong>Chatroom for the application.  Room name is in the background, automated message is sent on user joining/removing a room, and uses hooks to make the messages *stateful*.</strong></figcaption>
 
 ---
 ---
+In case anyone is interested...
 
-### WireFrames 
+### Wire Frames 
 - Designed as a *Mobile First* application.
 
-![wireframes here!](url)
-<figcaption><strong>Description</strong></figcaption>
+![React Messaging - Wire frames](readme_assets/wireframe/Messaging%20App%20Wireframe.png?raw=true)
+<figcaption><strong>Made from mobile proportions, then dynamically adapted for desktop users.  <small>Created with adobeXD</small></strong></figcaption>
 
 ---
-
-![wireframes here!](url)
-<figcaption><strong>Description</strong></figcaption>
-
----
-
-![wireframes here!](url)
-<figcaption><strong>Description</strong></figcaption>
-
----
-
-![wireframes here!](url)
-<figcaption><strong>Description</strong></figcaption>
-
----
-
-![wireframes here!](url)
-<figcaption><strong>Description</strong></figcaption>
-
----
-
-![wireframes here!](url)
-<figcaption><strong>Description</strong></figcaption>
-
----
-
-![wireframes here!](url)
-<figcaption><strong>Description</strong></figcaption>
-
----
-
 ---
 <br />
 
