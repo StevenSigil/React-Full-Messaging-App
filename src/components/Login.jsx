@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import firebase from "firebase/app";
@@ -9,6 +9,8 @@ export default function Login() {
   const auth = firebase.auth();
 
   const [hidePassPrompt, setHidePassPrompt] = useState(true);
+
+  const [showErrLogin, setShowErrLogin] = useState(false);
 
   const [errEmail, setErrEmail] = useState("");
   const [errPendingCred, setErrPendingCred] = useState(null);
@@ -36,8 +38,13 @@ export default function Login() {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase
       .auth()
+      // .signInWithRedirect(provider)
       .signInWithPopup(provider)
-      .then(() => history.push("/main"));
+      .then(() => history.push("/main"))
+      .catch((err) => {
+        console.log(err);
+        setShowErrLogin(true);
+      });
   }
   function signInWithGitHub() {
     var provider = new firebase.auth.GithubAuthProvider();
@@ -48,6 +55,7 @@ export default function Login() {
         if (error.code === "auth/account-exists-with-different-credential") {
           handleAccountExistsError(error.email, error.credential);
         }
+        setShowErrLogin(true);
       });
   }
 
@@ -124,6 +132,30 @@ export default function Login() {
           <PasswordPrompt />
         </div>
       </section>
+
+      <ErrLogin showErrLogin={showErrLogin} setShowErrLogin={setShowErrLogin} />
     </div>
+  );
+}
+
+function ErrLogin({ showErrLogin, setShowErrLogin }) {
+  useEffect(() => {
+    if (showErrLogin) {
+      setTimeout(() => {
+        setShowErrLogin(false);
+      }, 6000);
+    }
+  }, [showErrLogin, setShowErrLogin]);
+
+  return (
+    <>
+      <div className="errAlert" hidden={!showErrLogin}>
+        <p>
+          There was an error logging in. If this problem persists, please ensure
+          pop ups are enabled for 3rd party authentication. You can also
+          register for a basic account <Link to="/register">here</Link>.
+        </p>
+      </div>
+    </>
   );
 }

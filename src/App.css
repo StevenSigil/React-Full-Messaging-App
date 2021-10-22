@@ -531,3 +531,22 @@ code {
 .created .primary:focus {
   box-shadow: none;
 }
+
+.errAlert {
+  position: fixed;
+  bottom: 2rem;
+  right: calc(calc(100% - 300px) / 4);
+  max-width: 300px;
+  background-color: #b10012;
+  padding: 15px 25px;
+  border-radius: 12px;
+  color: #ffffff;
+}
+.errAlert p {
+  width: auto;
+  margin: 0;
+}
+.errAlert a {
+  color: #00ccff;
+  font-weight: 600;
+}
